@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="2" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="14F27" minimumToolsVersion="Xcode 4.3">
+    <entity name="AttentionList" representedClassName="AttentionList" syncable="YES">
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="list" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="UserDetail" inverseName="attentionList" inverseEntity="UserDetail" syncable="YES"/>
+    </entity>
+    <entity name="Feed" representedClassName="Feed" syncable="YES">
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="commentCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="commentRepostID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="followReportsCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isRecommend" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="publishTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pureRepostId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pureRepostsCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repostsCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repostsFeedId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feedList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FeedList" inverseName="feedList" inverseEntity="FeedList" syncable="YES"/>
+        <relationship name="followRepostsuserList" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="FollowRepostsUser" inverseName="feed" inverseEntity="FollowRepostsUser" syncable="YES"/>
+        <relationship name="linkContent" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="LinkContent" inverseName="feed" inverseEntity="LinkContent" syncable="YES"/>
+        <relationship name="sourceFeed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SourceFeed" inverseName="feed" inverseEntity="SourceFeed" syncable="YES"/>
+    </entity>
+    <entity name="FeedList" representedClassName="FeedList" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="profileUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feedList" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Feed" inverseName="feedList" inverseEntity="Feed" syncable="YES"/>
+    </entity>
+    <entity name="FollowRepostsUser" representedClassName="FollowRepostsUser" syncable="YES">
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repostCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="followRepostsuserList" inverseEntity="Feed" syncable="YES"/>
+    </entity>
+    <entity name="LinkContent" representedClassName="LinkContent" syncable="YES">
+        <attribute name="at" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasVideo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="linkId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="newsPic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repostsCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="linkContent" inverseEntity="Feed" syncable="YES"/>
+    </entity>
+    <entity name="SourceFeed" representedClassName="SourceFeed" syncable="YES">
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasVideo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="linkId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="newsPic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repostsCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="sourceFeed" inverseEntity="Feed" syncable="YES"/>
+    </entity>
+    <entity name="UserDetail" representedClassName="UserDetail" syncable="YES">
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bilateral" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="descriptionString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstLogin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="followCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="followerCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="m_icon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mobile" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nameIsUnique" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profileBgs" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profileUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sex" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updateTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="verfy" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="attentionList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AttentionList" inverseName="list" inverseEntity="AttentionList" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AttentionList" positionX="0" positionY="180" width="128" height="75"/>
+        <element name="Feed" positionX="-45" positionY="27" width="128" height="405"/>
+        <element name="FeedList" positionX="27" positionY="225" width="128" height="120"/>
+        <element name="FollowRepostsUser" positionX="-27" positionY="162" width="128" height="135"/>
+        <element name="LinkContent" positionX="-9" positionY="171" width="128" height="270"/>
+        <element name="SourceFeed" positionX="9" positionY="216" width="128" height="255"/>
+        <element name="UserDetail" positionX="45" positionY="234" width="128" height="405"/>
+    </elements>
+</model>

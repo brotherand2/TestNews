@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="ChapterList" representedClassName="ChapterList" syncable="YES">
+        <attribute name="bookId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chapterContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chapterId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="chapterKey" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chapterTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chapterWordCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hasPaid" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isDownload" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isfree" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="oid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="pid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="price" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="StoryBookList" representedClassName="StoryBookList" syncable="YES">
+        <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookImg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasReadChapterId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hasReadChapterIndex" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hasReadPageNum" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isAddBookSelf" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isfinish" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="maxChapters" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="pid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="readCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wordCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="StoryBookMarks" representedClassName=".StoryBookMarks" syncable="YES">
+        <attribute name="bookId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="bookName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chapterId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="chapterIndex" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="chapterName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="length" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="page" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="startLocation" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="StoryBookShelfList" representedClassName="StoryBookShelfList" syncable="YES">
+        <attribute name="bookId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="remind" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="StoryConfig" representedClassName="StoryConfig" syncable="YES">
+        <attribute name="chapterFont" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="externString" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="ChapterList" positionX="-63" positionY="-18" width="128" height="225"/>
+        <element name="StoryBookList" positionX="-45" positionY="0" width="128" height="300"/>
+        <element name="StoryBookMarks" positionX="-54" positionY="-9" width="128" height="195"/>
+        <element name="StoryBookShelfList" positionX="-45" positionY="126" width="128" height="105"/>
+        <element name="StoryConfig" positionX="-54" positionY="135" width="128" height="75"/>
+    </elements>
+</model>

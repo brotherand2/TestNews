@@ -1,0 +1,16 @@
+//
+//  SNDatabase_Weather.h
+//  sohunews
+//
+//  Created by yanchen wang on 12-7-17.
+//  Copyright (c) 2012年 Sohu.com Inc. All rights reserved.
+//
+
+#import "SNDatabase.h"
+
+@interface SNDatabase(Weather)
+
+- (BOOL)updateWeatherReports:(NSArray *)reports;
+- (NSArray *)weatherReportsByCityGbCode:(NSString *)gbcode;
+
+@end

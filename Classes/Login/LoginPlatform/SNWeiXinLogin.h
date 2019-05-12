@@ -1,0 +1,24 @@
+//
+//  SNWeiXinLogin.h
+//  sohunews
+//
+//  Created by wang shun on 2017/4/7.
+//  Copyright © 2017年 Sohu.com. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "WXApi.h"
+#import "WXApiObject.h"
+#import "SNThirdLoginSuccess.h"
+@class SNThirdLoginViewModel;
+@interface SNWeiXinLogin : NSObject
+
+@property (nonatomic,strong) SNThirdLoginSuccess* thirdLoginSuccess;
+@property (nonatomic,strong) NSDictionary* userInfoDic;//绑定之前已经拿到的userinfo
+
++ (void)weixinLogin:(NSDictionary*)params thridModel:(SNThirdLoginViewModel*)vModel WithSuccess:(void (^)(NSDictionary*))method;
+
+- (void)setURLWithCode:(NSString *)code;
+
+- (void)ppLoginSuccessed:(NSDictionary*)dic;
+@end

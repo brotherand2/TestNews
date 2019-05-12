@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16C67" minimumToolsVersion="Xcode 4.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="16">
+    <entity name="AtDataEntity" representedClassName="AtDataEntity" syncable="YES">
+        <attribute name="positionI" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="atEntity" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="AtEntity" inverseName="atDataEntity" inverseEntity="AtEntity" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="atDataEntity" inverseEntity="Feed" syncable="YES"/>
+        <relationship name="firstFeed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FirstFeed" inverseName="atDataEntity" inverseEntity="FirstFeed" syncable="YES"/>
+        <relationship name="linkContent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LinkContent" inverseName="atDataEntity" inverseEntity="LinkContent" syncable="YES"/>
+        <relationship name="sourceFeed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SourceFeed" inverseName="atDataEntity" inverseEntity="SourceFeed" syncable="YES"/>
+    </entity>
+    <entity name="AtEntity" representedClassName="AtEntity" syncable="YES">
+        <attribute name="fontColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isClick" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="topicId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="topicName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="atDataEntity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AtDataEntity" inverseName="atEntity" inverseEntity="AtDataEntity" syncable="YES"/>
+    </entity>
+    <entity name="AttentionList" representedClassName="AttentionList" syncable="YES">
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="list" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="UserDetail" inverseName="attentionList" inverseEntity="UserDetail" syncable="YES"/>
+    </entity>
+    <entity name="BreakPointFile" representedClassName="BreakPointFile" syncable="YES">
+        <attribute name="fileName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fileSize" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="md5Str" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeStamp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="trunks" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userid" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ChatBackground" representedClassName="ChatBackground" syncable="YES">
+        <attribute name="chatUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="commonImage" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="groupId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="logUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="singleImage" optional="YES" attributeType="Binary" syncable="YES"/>
+    </entity>
+    <entity name="ChatGroupMembers" syncable="YES">
+        <attribute name="groupId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="insertTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ChatThreads" representedClassName="ChatThreads" syncable="YES">
+        <attribute name="authority" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="closeNotify" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="draft" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="draftAtInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="groupId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="groupMasterUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="groupName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="inaddressList" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isAt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isDelete" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isThreadIdFromServer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="loginUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="outGroup" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tabUnReadCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="threadDesc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="threadId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timelineUnReadCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unInLocalList" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unReadCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Conversation" representedClassName="Conversation" syncable="YES">
+        <attribute name="atString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bigImageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cardContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cardImageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cardLinkUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cardTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cardType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chatId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chatUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="groupId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="imageHeight" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="imageMd5" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageWith" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="isList" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="logUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="msgStatus" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="msgType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="msgUnReaded" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="originImageSize" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="originImageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="serverTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="smallImageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="textString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="threadId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userIdListArrayDesc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="voiceLocalUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="voiceReaded" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="voiceServerUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="voiceTimeLength" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
+    <entity name="Feed" representedClassName="Feed" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="caption" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cellHeight" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="commentCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="commentRepostID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="followReportsCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageAtString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isRecommend" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mapCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mapId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="picFeedStatus" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="publishTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pureRepostId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pureRepostsCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repostsCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repostsFeedId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tagDesc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="templateType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="atDataEntity" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="AtDataEntity" inverseName="feed" inverseEntity="AtDataEntity" syncable="YES"/>
+        <relationship name="feedImageList" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="FeedImageList" inverseName="feed" inverseEntity="FeedImageList" syncable="YES"/>
+        <relationship name="feedList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FeedList" inverseName="feedList" inverseEntity="FeedList" syncable="YES"/>
+        <relationship name="firstFeed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FirstFeed" inverseName="feed" inverseEntity="FirstFeed" syncable="YES"/>
+        <relationship name="followRepostsuserList" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="FollowRepostsUser" inverseName="feed" inverseEntity="FollowRepostsUser" syncable="YES"/>
+        <relationship name="linkContent" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="LinkContent" inverseName="feed" inverseEntity="LinkContent" syncable="YES"/>
+        <relationship name="snsQianFanLive" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SnsQianFanLive" inverseName="feed" inverseEntity="SnsQianFanLive" syncable="YES"/>
+        <relationship name="snsShareSourceApp" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SnsShareSourceApp" inverseName="feed" inverseEntity="SnsShareSourceApp" syncable="YES"/>
+        <relationship name="snsVideo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SnsVideo" inverseName="feed" inverseEntity="SnsVideo" syncable="YES"/>
+        <relationship name="sourceFeed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SourceFeed" inverseName="feed" inverseEntity="SourceFeed" syncable="YES"/>
+    </entity>
+    <entity name="FeedImageList" representedClassName="FeedImageList" syncable="YES">
+        <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="feedImageList" inverseEntity="Feed" syncable="YES"/>
+    </entity>
+    <entity name="FeedList" representedClassName="FeedList" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="profileUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feedList" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Feed" inverseName="feedList" inverseEntity="Feed" syncable="YES"/>
+    </entity>
+    <entity name="FirstFeed" representedClassName="FirstFeed" syncable="YES">
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="linkId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repostsCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tagDesc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="atDataEntity" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AtDataEntity" inverseName="firstFeed" inverseEntity="AtDataEntity" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="firstFeed" inverseEntity="Feed" syncable="YES"/>
+    </entity>
+    <entity name="FollowRepostsUser" representedClassName="FollowRepostsUser" syncable="YES">
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repostCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="followRepostsuserList" inverseEntity="Feed" syncable="YES"/>
+    </entity>
+    <entity name="LinkContent" representedClassName="LinkContent" syncable="YES">
+        <attribute name="at" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasVideo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="linkId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="newsPic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repostsCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="atDataEntity" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="AtDataEntity" inverseName="linkContent" inverseEntity="AtDataEntity" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="linkContent" inverseEntity="Feed" syncable="YES"/>
+    </entity>
+    <entity name="SNSDownLoadImage" representedClassName="SNSDownLoadImage" syncable="YES">
+        <attribute name="chatId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="currentFileSize" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fileSize" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fileUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasBeenDeleted" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isFinished" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="md5" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userid" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="SnsQianFanLive" representedClassName="SnsQianFanLive" syncable="YES">
+        <attribute name="coverPic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="liveId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="liveSourceType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="roomId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stopTime" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="snsQianFanLive" inverseEntity="Feed" syncable="YES"/>
+        <relationship name="sorceFeed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SourceFeed" inverseName="snsQianFanLive" inverseEntity="SourceFeed" syncable="YES"/>
+    </entity>
+    <entity name="SnsShareSourceApp" representedClassName="SnsShareSourceApp" syncable="YES">
+        <attribute name="appId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="appName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="snsShareSourceApp" inverseEntity="Feed" syncable="YES"/>
+    </entity>
+    <entity name="SnsVideo" representedClassName="SnsVideo" syncable="YES">
+        <attribute name="capturedVideoCameraPosition" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="coverPic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="duration" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="height" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="localId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="site" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="snsLocalOriginVideoPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="snsTransedVideoPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sourceType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="transCodeEndTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="transCodeStartTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="uploadEndTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="uploadSourceType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="uploadStartTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="vid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="videoStatus" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="width" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="writeToSandBoxDurtaion" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="snsVideo" inverseEntity="Feed" syncable="YES"/>
+        <relationship name="sourceFeed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SourceFeed" inverseName="snsVideo" inverseEntity="SourceFeed" syncable="YES"/>
+    </entity>
+    <entity name="SourceFeed" representedClassName="SourceFeed" syncable="YES">
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dynamic_pic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasVideo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="img_domain" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="linkId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="newsPic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repostsCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="style_pic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tagDesc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="atDataEntity" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="AtDataEntity" inverseName="sourceFeed" inverseEntity="AtDataEntity" syncable="YES"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="sourceFeed" inverseEntity="Feed" syncable="YES"/>
+        <relationship name="snsQianFanLive" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SnsQianFanLive" inverseName="sorceFeed" inverseEntity="SnsQianFanLive" syncable="YES"/>
+        <relationship name="snsVideo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SnsVideo" inverseName="sourceFeed" inverseEntity="SnsVideo" syncable="YES"/>
+    </entity>
+    <entity name="UserDetail" representedClassName="UserDetail" syncable="YES">
+        <attribute name="article_switch" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bilateral" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bind" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="descriptionString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feedCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstLogin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="followCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="followerCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="m_icon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mobile" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="munum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nameIsUnique" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="passportId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profileBgs" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profileUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="qrcodeUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sex" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sign" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="subId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updateTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="v_icon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="verfy" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vip_icon" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="attentionList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AttentionList" inverseName="list" inverseEntity="AttentionList" syncable="YES"/>
+    </entity>
+    <entity name="WebData" representedClassName="WebData" syncable="YES">
+        <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="profileUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AtDataEntity" positionX="0" positionY="180" width="128" height="135"/>
+        <element name="AtEntity" positionX="9" positionY="189" width="128" height="195"/>
+        <element name="AttentionList" positionX="0" positionY="180" width="128" height="75"/>
+        <element name="BreakPointFile" positionX="171" positionY="306" width="128" height="135"/>
+        <element name="ChatBackground" positionX="171" positionY="306" width="128" height="120"/>
+        <element name="ChatGroupMembers" positionX="171" positionY="306" width="128" height="90"/>
+        <element name="ChatThreads" positionX="18" positionY="198" width="128" height="375"/>
+        <element name="Conversation" positionX="27" positionY="207" width="128" height="555"/>
+        <element name="Feed" positionX="171" positionY="378" width="128" height="675"/>
+        <element name="FeedImageList" positionX="0" positionY="180" width="128" height="75"/>
+        <element name="FeedList" positionX="27" positionY="225" width="128" height="120"/>
+        <element name="FirstFeed" positionX="0" positionY="180" width="128" height="255"/>
+        <element name="FollowRepostsUser" positionX="-27" positionY="162" width="128" height="135"/>
+        <element name="LinkContent" positionX="-9" positionY="171" width="128" height="285"/>
+        <element name="SNSDownLoadImage" positionX="189" positionY="324" width="128" height="180"/>
+        <element name="SnsQianFanLive" positionX="171" positionY="306" width="128" height="165"/>
+        <element name="SnsShareSourceApp" positionX="403" positionY="828" width="128" height="88"/>
+        <element name="SnsVideo" positionX="457" positionY="287" width="128" height="345"/>
+        <element name="SourceFeed" positionX="277" positionY="162" width="128" height="375"/>
+        <element name="UserDetail" positionX="45" positionY="234" width="128" height="540"/>
+        <element name="WebData" positionX="0" positionY="180" width="128" height="105"/>
+    </elements>
+</model>

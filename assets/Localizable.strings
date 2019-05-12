@@ -1,0 +1,657 @@
+/* 
+   Localizable.strings
+   sohunews
+
+   Created by kuanxi zhu on 5/25/11.
+   Copyright 2011 Sohu.com Inc. All rights reserved.
+ */
+ 
+//common
+"Confirm"		= "确定";
+"Cancel"		= "取消";
+"Close"		    = "关闭";
+"Done"			= "完成";
+"Error code"	= "错误代码";
+"Error detail"	= "详情";
+"Loading data"	= "正在加载数据";
+"Loading..."	= "正在加载...";
+"DragToLoadMore"	= "上拉加载更多";
+"Load data failed"	= "暂无法获取数据";
+"Retry later"		= "请稍候再试";
+"Please wait"		= "请稍候";
+"Back"              = "返回";
+"Submit"            = "提交";
+"network error"    = "暂时无法连接网络";
+"network timeout"   = "网络请求超时";
+"NoContent"        = "内容不能为空";
+"RunInBackground"  = "您有下载任务未完成，将转入后台进行";
+
+"RateNow"       = "五星鼓励";
+"RateLater"     = "下次再说";
+"NeverRate"     = "不，谢谢";
+
+"RateTitle"     = "给我们评分";
+"RateText"      = "工程师们仍在继续努力优化产品，您的肯定是我们进步的最大动力。";
+"Read more"     = "阅读更多";
+
+//新闻
+"News"             = "新闻";
+"SohuNews"         = "搜狐新闻";
+"Comment"		   = "评论";
+"ReplyComment"     = "回复评论";
+"PublicDynamic"    = "发表动态";
+"ShareToRead"      = "分享到阅读圈";
+"ComposeComment"   = "我来说两句";
+"ChatComment"      = "和小秘书说两句";
+"CommentApply"     = "写跟贴";
+"Loading"		   = "读取中";
+"NoMoreComment"    = "没有更多评论了";
+"NewsComment"      = "新闻评论";
+"NewsLoadFail"     = "新闻加载失败";
+"LoadFailRefresh"  = "加载失败，点击屏幕刷新";
+"SmallFont"        = "小号字体";
+"MediumFont"       = "中号字体";
+"LargeFont"        = "大号字体";
+"MoreLargeFont"    = "已是最大字号";
+"AlreadyFirstNews" = "前面没有新闻了";
+"AlreadyLastNews"  = "后面没有新闻了";
+"CommentFailed"    = "暂时无法连接网络";
+"CommentSucceed"   = "评论成功";
+"CommentCommitting"= "提交评论中";
+"SendRepeatComment" = "不要发表重复内容";
+"PhotoSavedToAlbum"= "图片已保存至相册";
+"PhotoLoadFailed"  = "图片加载失败";
+"PhotoDownloadFail"= "图片下载失败";
+"PhotoDownloadFail_IOS6"= "请前往\"设置-隐私-照片\"开启权限";
+"MicrophoneForbidden"="请前往\"设置-隐私-麦克风\"开启权限";
+"OriginalArticle"  = "原文";
+"NoComment"        = "暂无评论";
+"SubmitAComment"   = "赶紧说两句抢沙发";
+"CheckNetwork"     = "请检查您的网络连接";
+"ShowNextNRecords" = "显示下%d条";
+"LastRefreshTime"  = "上次刷新时间 : %@";
+"LastRefreshTimeNo"= "上次刷新时间 : 尚未更新";
+"ReleaseToRefresh" = "释放后刷新";
+"DragToRefresh"    = "下拉刷新";
+"Refresh..."       = "正在刷新...";
+"Me"               = "狐友";
+"PreNewsNotReady"  = "上一条新闻还未就绪";
+"NextNewsNotReady" = "下一条新闻还未就绪";
+"NoRollingNews"    = "暂无新闻";
+"RefreshRollingNews"    = "请下拉刷新试试^_^";
+"ChannelSort"      = "编辑栏目";
+"Express"          = "快讯";
+"FocusNews"        = "焦点";
+"GroupPhotoNews"   = "组图";
+"SpecialNews"      = "专题";
+"LiveNews"         = "直播";
+"Weiwen"           = "微闻";
+"Newspaper"        = "媒体";
+
+// 微热议
+//"weiboHot"          = "微热议";
+
+//组图
+"photoGroupTabbarName" = "组图";
+"photoGroupHotTabbarName" = "热门";
+"photoGroupTagTabbarName" = "分类";
+"photoCategoryName"  = "选择类别";
+"photoHotTagName"    = "热门标签";
+"photoGroupNoNews"    = "暂无组图";
+"photoGroupRefresh"    = "请下拉刷新试试^_^";
+"photoNoWifiTitle"  = "无WIFI网络";
+"photoNoWifiInfo"   = "看图会消耗较大流量";
+"photoNonePicModeInfo" = "您目前已开启无图模式，选择图片项点击后下载";
+"AccessiblityPhoto" = "图像";
+
+//视频
+"videoTabbarName"  = "视频";
+//视频
+"MeName"  = "我";
+
+//图片新闻
+"SohuPhotoNews"    = "搜狐新闻";
+"NoPhoto"          = "没有图片";
+"LoadingPhotoList" = "加载图片列表...";
+"NoPhotoInfo"      = "(暂无简介)";
+"Recommend Photos" = "相关推荐";
+"favoriteSuccess"  = "操作成功！已有%d个人喜欢。";
+"favoriteFailed"   = "暂无法连接网络";
+"favoriteDuplicate"   = "您已经喜欢过了。";
+"favoriteCount"   = "%@人已读";
+"favoriteUnsuported" = "离线内容不支持喜欢功能";
+
+//报纸
+"paper souhunews"	= "搜狐新闻";
+"paper edit"	= "编辑";
+"paper subscribe"	= "内容管理";
+"download progress" = "下载进度";
+"download init" = "初始化，请稍候...";
+"download paper sucess" = "离线内容下载完毕";
+"download paper fail" = "离线内容下载失败";
+//批量下载
+"downloading progress" = "《%@》的下载进度";
+"preparing downlod" = "初始化下载《%@》，请稍候...";
+"download one sucessfully" = "离线内容《%@》下载完毕";
+"download all sucessfully" = "离线内容全部下载完毕";
+"failed to download one" = "离线内容《%@》下载失败";
+"failed for not found package in server" = "《%@》离线包正在生成中...";
+"failed for cant unzip file" = "《%@》离线包损坏";
+"failed to download" = "离线内容下载失败";
+"download is running" = "正在下载离线内容...";
+"nothing to download" = "无离线内容可下载";
+"title of confirm batch download" = "警告";
+"confirm batch download" = "您目前的网络不是Wifi,可能会消耗您大量流量，仍然要下载吗？";
+"download anyway" = "继续离线";
+"give up download" = "放弃";
+"pls_select_items_tobedownloaded" = "请设置要离线的内容";
+//------
+"downloader_onekeydownbtn_title" = "一键下载";
+"download_setting_title" = "离线下载设置";
+"download_setting_subsection_title" = "刊物";
+"download_setting_newssection_title" = "新闻";
+"download_setting_hadselected_title" = "已选%d/%d";
+"download_setting_selectedall_title" = "已全选";
+
+//下载器
+"downloaded_items_title" = "离线刊物";
+"downloading_items_title" = "正在离线";
+"waiting_downloading" = "等待下载";
+"failed_to_download" = "下载失败";
+"finish_downloading" = "离线完成";
+"cancel all downloading subs" = "取消所有正在离线的报纸";
+"cancel all downloading items" = "取消所有正在离线的内容";
+"yes to cancel all" = "是";
+"no to cancel all" = "否";
+"empty_downloaded_list_message" = "没有离线内容";
+"empty_downloading_list_message" = "没有正在离线";
+
+"downloading_items_cell_title" = "离线管理";
+"sbm_downloading" = "正在离线《%@》";
+"sbm_downloading_unknown_publication" = "正在离线刊物";
+"sbm_downloading_newschannel" = "正在离线新闻频道《%@》";
+"sbm_downloading_unknown_news" = "正在离线新闻";
+"sbm_finish_a_download" = "刊物离线已完成";
+"sbm_finish_a_download_unknown_sub" = "离线完成一刊物√";
+"sbm_finish_a_download_unknown_channel" = "离线完成一频道√";
+"sbm_fail_a_download" = "刊物离线失败《%@》";
+"failed_to_download_a_unknown_sub" = "暂无法离线该刊物";
+"failed_to_download_a_unknown_channel" = "暂无法离线该频道";
+"sbm_retry_a_download" = "准备重试《%@》，请稍等";
+"sbm_finish_all_downloads" = "离线下载完毕√";
+"sbm_finish_all_downloads_but_somefailed" = "离线下载完毕，但部分下载失败√";
+"sbm_finish_all_downloads_but_somecanceled" = "离线下载完毕，但部分下载取消√";
+"sbm_finish_all_downloads_fail" = "离线下载失败√";
+"sbm_finish_all_downloads_ok" = "离线下载已结束√";
+"sbm_finish_all_downloads_with_fails" = "离线下载已结束";
+"sbm_network_error" = "网络链接失败，请稍后再试";
+"sbm_addsub_to_download" = "已开始离线刊物";
+"sbm_failed_to_addsub_to_download" = "数据不正确，添加离线下载失败";
+"sbm_finish_cancel_all_downloads" = "离线下载已全部取消√";
+"retry_download_item" = "准备重试《%@》，请稍等";
+"retry_download_channel" = "准备重试频道，请稍等";
+
+//专题
+"specialnews_title"                     = "搜狐专题";
+"specialnews_section_name_default"      = "新闻";
+"specialnews_section_name_focus"        = "焦点";
+"specialnews_section_name_guide"        = "头条";
+
+//刊物
+"publications"                  = "首页";
+"sohu publications"             = "关注";
+"subcenter_title"               = "添加关注";
+//"my subscribe"                  = "我的关注";
+"download publications"         = "下载";
+"edit my subscribes"            = "编辑";
+"finish edit my subscribes"     = "完成";
+//"addsub_title_in_news_page"     = "关注";
+
+//刊物推荐
+//"recommended_subs_title"        = "媒体推荐";
+//"recommended_suball_text"       = "全部关注";
+//"recommended_dontremindme_text" = "不再提醒";
+
+//往期
+"paper manage"	= "内容管理";
+"paper wangqi"	= "往期内容";
+"paper local"	= "本地内容";
+"no local paper"	= "现在本地没有内容哦.";
+"pls select at least one"	= "请选中需要删除的内容.";
+"no online paper"	= "现在没有报纸哦.";
+"no noread paper"	= "现在没有未读报纸哦.";
+"local mode"	= "本地报纸";
+"online mode"	= "全部报纸";
+"mark read"	= "标记";
+"clean up"	= "清空";
+"loading more"	= "加载更多";
+"Confirm clear up"	= "确认删除所有本地内容？";
+"Confirm delete selected items"	= "确认删除选中内容？";
+"Finish clear up"	= "已删除";
+"Confirm mark read"	= "确认将全部未读报纸标记为已读？";
+
+//订阅
+//"mysubscribe" = "我的关注";
+"subscribe"	= "关注管理";
+"add subscribe"	= "添加";
+"del subscribe"	= "取消";
+"Follow"	= "＋关注";
+"Following"	= "已关注";
+"Friend" = "互关";
+"downloading subscribe" = "下载中";
+"subscribe ing"	= "...";
+"subscribe failed"	= "关注失败.";
+"subscribe suceeded0"	= "全部关注成功";
+"subscribe suceeded1"	= "关注成功";
+"subscribe suceeded2"	= "已退订";
+"unsubscribe confirm"   = "您真的要退订吗";
+"unsubscribe message"   = "可在\"广场\"中关注其他媒体";
+"not unsubscribe"   = "暂且留着";
+"do unsubscribe"    = "决心退订";
+"stop use plugin confirm"  = "停止使用吗";
+"stop use plugin"   = "停止使用";
+"subscribe hint"    = "关注后可方便的从\"我的关注\"中阅读最新内容";
+"unsubscribe hint"  = "可在更多-推送设置中随时更改";
+"not subscribe for now"   = "暂不关注";
+"subscribe now"     = "立即关注";
+"push is on"        = "推送已打开";
+"push is off"       = "推送已关闭";
+
+
+//分享
+"Share"				= "分享";
+"Share to sms"		= "分享到短信";
+"Share image to weibo"  = "分享图片到微博";
+"Share to weibo"    = "分享到微博/QQ空间/人人";
+"Share to sohu"		= "分享到搜狐微博";
+"Share to sina"		= "分享到新浪微博";
+"Share to netease"	= "分享到网易微博";
+"Share to QQ"       = "分享到腾讯微博";
+"Share to qq"       = "分享到QQ";
+"Share to weixin"   = "分享到微信好友";
+"Share to weixin timeline" = "分享到微信朋友圈";
+"Share to Other Mail" = "分享到好友的邮箱";
+"Share to timeline" = "分享到阅读圈";
+"Bind to sohu"		= "绑定到搜狐微博";
+"Bind to sina"		= "绑定到新浪微博";
+"Bind to QQ"		= "绑定到腾讯微博";
+"Bind to netease"		= "绑定到网易微博";
+"Fail to connect server"	= "连接服务器时发生错误";
+"Sms not support"	= "当前设备不支持短信功能";
+"iOS ver too old"	= "iOS版本过低,不支持发短信操作";
+"Can input"			= "还可输入";
+"Exceeded"			= "已经超出";
+"Words"				= "字";
+"Binded"			= "已经绑定账号";
+"unBinded"			= "尚未绑定账号";
+"Add bind to weibo"		= "添加绑定";
+"Delete bind to weibo"	= "取消绑定";
+"ShareSucceed"      = "分享成功";
+"ShareFailed"       = "暂无法分享";
+"SMSSent"			= "短信已经发送";
+"SMSSendSucceed"    = "短信已经发送";
+"SMSSendFailed"     = "短信发送失败";
+"SMS share to friends"	= "我正在用搜狐新闻看独家新闻，感觉不错！推荐您使用。免费下载:http://3g.k.sohu.com";
+"SMS share to friends for splash"	= "我正在用搜狐新闻看独家新闻，感觉不错！推荐您使用。";
+"Repeated text"			= "重复的分享内容";
+"Update weibo out of rate limit"	= "发布微博超过上限";
+"NewsShareWords"        = "%@，与你分享：%@，客户端下载：http://itunes.apple.com/cn/app/id436957087";
+"Cancel share"			= "确认取消分享？";
+"Cancel comment"			= "确认取消评论？";
+"SohuNews share"    = "分享搜狐新闻";
+"Sohu share"        = "搜狐新闻";
+"Paper to share"    = "搜狐新闻";
+"News to share"     = "搜狐新闻";
+"Image to share"    = "搜狐新闻";
+"Images to share"   = "搜狐新闻";
+"Weixin sucuess"    = "微信分享成功";
+"Weixin error common"   = "分享微信失败";
+"Weixin sent fail"  = "微信发送失败";
+"Weixin auty deny"  = "微信认证失败";
+"Weixin not installed"  = "没有安装微信";
+"Weixin not suported"   = "微信版本过低不支持";
+
+"AP sucuess"    = "支付宝分享成功";
+"AP error common"   = "分享支付宝失败";
+"AP sent fail"  = "支付宝发送失败";
+"AP auty deny"  = "支付宝认证失败";
+"AP not installed"  = "没有安装支付宝";
+"AP not suported"   = "支付宝版本过低不支持";
+
+"QQ not installed"  = "没有安装手机QQ";
+"QQ not suported"   = "手机QQ版本过低不支持";
+
+"GiveUpShareToReadCircle" = "是否取消分享";
+"GiveUpComment" = "是否取消评论";
+"ConfirmGiveUp" = "是";
+"CancelGiveUp" = "否";
+//设置
+"Setting"					= "设置";
+"Weibo setting"				= "微博设置";
+"Bind to weibo succeed"		= "绑定到微博成功";
+"Push setting"				= "新闻推送设置";
+"No Subscribe info"			= "目前没有关注内容";
+"Confirm clear cache caption"	= "确认清除缓存";
+"Confirm clear cache message"	= "确认要清除所有缓存吗？";
+"Clear cache"				= "手动清除缓存";
+"Clear cache finished"		= "缓存清理完成";
+"Send"						= "发送";
+"Send feedback"				= "意见反馈";
+"Feedback placeholder"		= "您的宝贵意见是我们前进的动力";
+"Feedback contact info title"		= "手机号码/Email:";
+"Feedback contact info placeholder"	= "方便我们及时给您回复";
+"Share to friend"					= "好友分享";
+"Guide"								= "新手引导";
+"About"							= "关于";
+"Statement"                     = "免责声明";
+"Please input valid contactinfo"	= "请您填写有效的联系方式";
+"Seed feedback succeeded"		= "发送反馈成功,感谢您的宝贵意见";
+"Seed feedback failed"			= "暂时无法连接网络";
+"Change push setting failed"	= "更改推送通知设置失败";
+
+"Enabled"  = "开启";
+"Disabled" = "关闭";
+
+//升级
+"CheckUpgrade"      = "检查更新";
+"CheckingUpgrade"   = "正在检查更新...";
+"Upgrade"			= "升级";
+"ImmediateUpgrade" = "立即升级";
+"UpgradeIKnow" = "我知道了";
+"AlreadyLatestVersion" = "已经是最新的版本";
+"Optional upgrade"	= "有新的版本可供使用，是否升级？";
+"Force upgrade"		= "发现新的版本，必须升级后才能继续使用，是否升级？";
+//昵称修改
+"nickname changed"  = "昵称已修改";
+"clear nickname"="清空昵称";
+
+//支付
+"Transaction history"       ="充值记录";
+"Voucher center"            = "充值";
+"Recharge help"             = "充值帮助";
+
+//搜狐设置
+"SouHuSetting"      = "设置";
+"History"      = "历史";
+"SouHuMore"         = "更多";
+"localPaper"		= "离线内容";
+"pushSetting"		= "推送设置";
+"shareSetting"      = "分享设置";
+"zitiSetting"       = "正文字号";
+"delCache"			= "清除缓存";
+"provinceMode"      = "省流量模式";
+"nightMode"         = "夜间模式";
+
+"newbieGuide"       = "新手引导";
+"about"             = "关于";
+"feedback"          = "意见反馈";
+"friendShare"       = "推荐给好友";
+"worldSetting"      = "正文字号";
+"picModeSetting"    = "图片下载模式";
+"moreApp"           = "精品推荐";
+"mediaCooperation"  = "搜狐号";
+"Scoring"           = "给我们评分";
+"changeNick"        = "修改昵称";
+
+"Sohu Hao"          = "看看搜狐号文章";
+
+//直播间
+"liveRoom"         = "搜狐直播间";
+"subscribeLive"    = "添加提醒";
+"unsubscribeLive"  = "取消提醒";
+"noLiveContent"    = "暂无直播";
+"messageSent"      = "评论成功";
+"messageSendFailed" = "评论发表失败";
+//"messageDuplicated" = "发表信息间隔过短，请稍后再试";
+
+// 天气
+"sunday"            = "星期天";
+"monday"            = "星期一";
+"tuesday"           = "星期二";
+"wednesday"         = "星期三";
+"thursday"          = "星期四";
+"friday"            = "星期五";
+"saturday"          = "星期六";
+"AccessiblityWeather" = "%@，%@，%@度至%@度";
+
+//收藏
+"my_favourite_publication_indicator_text" = "刊物";
+"default_my_favourite_publication_text"   = "搜狐新闻刊物";
+"my_favourite_items_cell_title"           = "我的收藏";
+"succeed_to_add_myfavourite"              = "收藏成功";
+"failed_to_add_myfavourite"               = "取消收藏成功";
+"pls_select_atleast_one"                  = "请选中需要删除的收藏";
+"confirm_delete_selected_myfavourites"    = "确认删除选中的收藏？";
+"empty_myfavourites_list_message"         = "没有任何收藏";
+
+//股票
+"pls_select_stock_one"                    = "请选中需要删除的股票";
+"confirm_delete_selected_myStock"         = "确认删除选中自选股？";
+"added_stock_to_stockChannel"             = "添加成功";
+
+//数据库迁移
+"migrate_message_title"                   = "消息提示";
+"migrate_message_quite_app"               = "升级失败！建议您删除本客户端然后重新安装最新版。";
+"migrate_message_ok"                      = "退出程序，我再试试！";
+
+// 主题
+"theme_manage"      = "主题管理";
+
+//用户中心
+"user_info_login"                     = "登录";
+"user_info_login_now"                 = "马上登录";
+"user_info_cell_title"                = "我的搜狐";
+"user_info_un_login"                  = "点击登录";
+"user_info_logining"                  = "正在登录...";
+"user_info_register"                  = "注册";
+"user_info_flushcode"                 = "验证码";
+"user_info_logout"                    = "注销";
+"user_info_bind"                      = "分享设置";
+"user_info_protocol"                  = "同意搜狐新闻《用户注册协议》";
+"user_info_expire"                    = "已过期";
+"user_info_login_next_time"           = "下次再说";
+
+"user_info_label_name"                = "用户名";
+"user_info_label_password"            = "密码";
+"user_info_textfield_username"        = "小写字母开头，4到16位字母或数字、下划线组成";
+"user_info_textfield_password"        = "6到16位字母、数字或符号组成";
+"user_info_textfield_flushcode"       = "输入右图文字";
+"user_info_textfield_login_username"  = "请输入邮箱/手机号";
+"user_info_textfield_login_password"  = "请输入密码";
+"user_info_upload_tip"                = "上传成功！";
+"user_info_guide_tip"                 = "登录后可以方便地查看大家对您的回复";
+
+"user_info_login_success"            = "登录成功!";
+"user_info_logout_success"           = "退出成功!";
+"user_info_name_fail"                = "请输入正确的用户名!";
+"user_info_password_fail"            = "请输入正确的密码!";
+"user_info_name_checking"            = "正在验证用户名合法性!";
+"user_info_name_check_fail"          = "用户名不符合规则！";
+"user_info_password_bad"             = "密码应为6到16位!";
+"user_info_flushcode_empty"          = "请输入验证码!";
+"user_info_checkbox_uncheck"         = "请确认同意搜狐新闻《用户注册协议》!";
+"user_info_register_success"         = "注册成功！";
+"user_info_guide_register_tip"       = "请先登录再使用此功能";
+"user_info_guide_login_tip"          = "快来登录吧";
+"user_info_guide_register_secretary" = "搜狐小秘书";
+"user_info_guide_register_attention" = "请登录再关注我";
+//摇一摇
+"shaking_subCount"                   = "%d人关注";
+"shaking_title"                      = "猜你喜欢";
+"shaking_tip"                        = "摇一摇，换一组";
+"shaking_push_tip"                   = "同时接收推送消息";
+"shaking_hangout"                    = "逛一逛";
+"shaking_subnow"                     = "立即关注";
+"shaking_shake_tip"                  = "摇一摇，更多精彩内容等着你!";
+"shaking_shaking"                    = "寻找中...";
+"shaking_shake_fail"                 = "网络有问题，再摇一摇吧";
+"shaking_shake_too_much"             = "已关注所有媒体!";
+"shaking_shake_none"                 = "请选择要关注的媒体";
+"shaking_shake_sub_success"          = "成功关注%d个媒体";
+"shaking_shake_sub_fail"             = "关注失败，请重试";
+"shaking_shake_syn_fail"             = "同步失败，请重试";
+
+//微热议
+"weiboHot"                          = "观点";
+
+"HotComment"                        = "热门评论";
+"MoreComment"                       = "查看全部评论";
+"OpenComment"                       = "显示更多";
+
+// for tab voice over
+"tab_bar_0"                         = "新闻，标签，3之1";
+"tab_bar_1"                         = "视频，标签，3之2";
+"tab_bar_2"                         = "看我，标签，3之3";
+
+"appNotUsedForSomeTime1"            = "这么久不理人家了，等你等得好辛苦";
+"appNotUsedForSomeTime2"            = "八卦身边事，天天等你来";
+"appNotUsedForSomeTime3"            = "聪明来自见多识广，见多识广要用搜狐新闻";
+"appNotUsedForSomeTime4"            = "报告主人：我已准备好，就等您来了";
+"appNotUsedForSomeTime5"            = "我一直等你，现在未来，都等你";
+"appNotUsedForSomeTime6"            = "我知道你想看什么，还不快来？";
+
+"network_2g_3g"                     = "现在是非wifi网络";
+"waste_data_bandwidth"              = "已切换到非WiFi网络，继续离线将会消耗很多流量。";
+"waste_data_for_video"              = "播放视频会消耗大量流量";
+"stop_downloading"                  = "放弃下载";
+"download_video_pub_bandwidth_alert"= "非WiFi网络下载搜狐公众号将会消耗很多流量。";
+
+//我的订阅cell菜单
+"menuKeepTop"                       = "置顶";
+"menuNotKeepTop"                    = "取消置顶";
+"menuOpenPush"                      = "打开推送";
+"menuClosePush"                     = "取消推送";
+"menuSubscribe"                     = "关注";
+"menuUnsubscribe"                   = "已关注";
+"menuUse"                           = "使用";
+"menuStopUse"                       = "停止使用";
+
+//正文更多
+"contentMoreNoPic"                  = "非WiFi网络时自动无图模式";
+"contentMoreNight"                  = "夜间模式";
+"contentMorePush"                   = "快讯推送";
+"contentMoreFont"                   = "字体大小";
+"contentChangeFontMiddle"           = "小";
+"contentChangeFontBig"              = "中";
+"contentChangeFontSoBig"            = "大";
+"contentMoreEditNews"               = "编辑文章";
+
+//录音
+"recordButtonDown"                  = "按住说话";
+"recordButtonUp"                    = "松开结束";
+"recordAgain"                       = "按住重新说话";
+
+"audioCommentIsForbidden"           = "禁止语音评论";
+"audioDurationTooShort"             = "录音时间过短，请重录！";
+"audioCouldntSendWithPhoto"         = "照片和语音不能同时上传哦！";
+"audioDurationTooLong"              = "语音最长为60秒";
+
+"picCommentIsForbidden"           = "禁止图片评论";
+
+//功能插件
+"pluginUsed"                        = "已使用";
+"pluginNotUsed"                     = "未使用";
+
+//视频Tab相关
+"downloaded_videos_title"           = "已离线";
+"downloading_videos_title"          = "正在离线";
+"kVideoEmptyDownloadView_HeadlineText"   = "没有离线视频";
+"kVideoDownloadHeaderBar_Title"     = "选择要删除的视频";
+"videoDownloadActionBtnTitle_CancelAction"      = "取消";
+"videoDownloadActionBtnTitle_PauseAction"       = "暂停";
+"videoDownloadActionBtnTitle_Resume"            = "恢复";
+"videoDownloadActionBtnTitle_RetryAction"       = "重试";
+"alreadFirstVideo"                              = "已是第一个视频";
+"alreadLastVideo"                               = "已是最后一个视频";
+"confirm_delete_selected_downloadedvideos"      = "确认删除选中视频？";
+"pls_select_atleast_one_downloadedvideo"        = "请选中需要删除的视频";
+"video_is_unavailable_pls_try_recommend_videows"= "该视频暂时无法播放";
+"video_timeline_refresh_msg"                    = "已为您更新%d个新视频";
+"network_unavailable_cant_play_video"           = "暂时无法连接网络";
+"switch_to_html5_play_video_msg"                = "因为版权限制,该影片需要跳转至浏览器播放";
+"cant_play_in_html5_try_recommendlist"          = "该视频在网页中无法播放";
+"using_2g3g_currently_pls_note"                 = "正在使用移动网络";
+"videoplayer_net_changed_to_2g3g_msg"           = "已切换到非Wifi网络";
+"timeline_videoplay_sitename"                   = "播放来源：%@";
+"2g3g_actionsheet_info_title"                   = "流量提醒";
+"2g3g_actionsheet_info_content"                 = "非WiFi网络播放视频将消耗很多流量";
+"2g3g_actionsheet_option_cancel"                = "取消";
+"2g3g_actionsheet_option_play"                  = "继续播放";
+"timeline_video_firsttime_autoplay_wifi"        = "即将在WiFi网络下自动播放";
+"timeline_video_copyright_msg"                  = "  由于版权问题，需要跳转到网页播放";
+"will_play_nextvideo_in5seconds_msg"            = "  即将播放：%@";
+
+"diskspace_not_enough_for_video_download_and_pause_all"       = "手机空间不足，已暂停视频离线";
+"cant_downloadvideo_for_not_network"                = "暂时无法连接网络";
+"2g3g_downloadvideo_actionsheet_info_content"       = "非WiFi网络下载离线视频和刊物将会消耗很多流量。";
+"2g3g_downloadvideo_actionsheet_option_cancel"      = "取消";
+"2g3g_downloadvideo_actionsheet_option_continue"    = "继续下载";
+"succeed_to_add_video_to_downloading"               = "该视频已加入离线列表";
+"failed_to_play_downloaded_video"                   = "播放离线视频失败";
+"succeed_to_download_a_video"                       = "视频离线成功";
+"failed_to_download_a_video"                        = "暂无法离线该视频";
+"paused_to_download_a_video"                        = "视频离线暂停【%@】";
+
+"the_video_cant_be_downloaded"                  = "该视频暂时无法离线";
+"video_had_download"                            = "视频离线已完成";
+"video_is_downloading"                          = "视频正在离线";
+"failed_to_download_video"                      = "离线视频失败";
+"video_already_in_waiting_download"             = "视频离线已完成";
+"current_network_is_2g3g"                       = "已经切换到非WiFi网络";
+
+"mycenter_pub_downloadlist_entry_title"         = "离线";
+"mycenter_video_downloadlist_entry_title"       = "离线视频";
+
+//动态cell    
+"trend_deleteButtonTitle"           = "删除";
+"trend_deleteTip"                   = "确认删除这条动态吗？";
+"trend_deleteCancel"                = "取消";
+"trend_deleteConfirm"               = "删除";
+
+//===射箭小游戏相关的本地默认文案
+//下接松手提示文案
+"archery_release_to_refresh"                    = "松手即可射箭";
+//部分下拉时文案
+"archery_continue_dragging"                     = "继续下拉有惊喜";
+//分享页面输入框下方的标题文案
+"archery_default_sharingtitle"                  = "来搜狐新闻看亚运会";
+//射中并中奖的文案
+"archery_goal_and_reward"                       = "你是丘比特再世吧！一箭命中，可以和奖品相亲相爱去啦！";
+//领取奖品
+"archery_goal_and_reward_rewardbtn_title"       = "领取奖品";
+//射中并未中奖的文案
+"archery_goal_and_noreward"                     = "太酷了吧，你一定是传说中的神箭手，再接再厉！";
+//射中时分享页面输入框下方的分享语
+"archery_goal_sharing_abstract"                 = "问世间，还有谁比我能射？快来和我死磕！";
+//射中分享按钮标题
+"archery_goal_sharingbtn_title"                 = "分享";
+//未射中的文案
+"archery_nogoal"                                = "你一定是后羿传人，把箭射到太阳去了！卷土再战！";
+//未射中分享按钮标题
+"archery_nogoal_sharingbtn_title"               = "分享";
+//未射中分享语
+"archery_nogoal_sharing_abstract"               = "问世间，还有谁比我能射？快来和我死磕！";
+//===
+
+//===刊物首页
+"publication_home_cant_download_for_nil_link"       = "暂无法离线该内容：离线地址空";
+"publication_home_cant_download_for_invalid_link"   = "暂无法离线该内容：离线地址错误";
+"publication_home_had_downloaded"                   = "刊物离线已完成";
+"publication_home_pubisdownloading"                 = "已开始离线《%@》";
+//===
+
+//5.2.1登录失败，直接打开二代协议Toast
+"fail_login_click_visit"   = "暂无法登录，点击直接访问";
+"Push Novel setting" = "小说推送设置";
+"userPrivacyProtectPolicy" = "用户隐私保护政策";
+
+
+
+
+
+
+
+
+
+
+

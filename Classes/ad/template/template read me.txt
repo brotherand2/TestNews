@@ -1,0 +1,9 @@
+这里存放所有的广告模板
+
+SNAdImageTextTemplate 图文模板
+SNAdBigImateTemplate  大图模板
+SNAdBannerTemplate banner模板
+SNAdTextTemplate  纯文本模板
+SNAdImageTemplate 纯图片模板
+
+SNAd12238Template 12238广告位专用模板

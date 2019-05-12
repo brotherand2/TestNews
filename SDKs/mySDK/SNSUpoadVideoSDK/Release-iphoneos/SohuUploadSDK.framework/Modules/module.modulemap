@@ -1,0 +1,6 @@
+framework module SohuUploadSDK {
+  umbrella header "SohuUploadSDK.h"
+
+  export *
+  module * { export * }
+}

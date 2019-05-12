@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>SohuNewsTodayNews.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>pushExtention.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>19</integer>
+		</dict>
+		<key>sohunews WatchKit App (Complication).xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>sohunews WatchKit App (Glance).xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>sohunews WatchKit App (Notification).xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>sohunews WatchKit App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>sohunews.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+		<key>sohunewsNotificationExtention.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>20</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>371B52E71706BF0D00CECA3A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>399A97B91F13887A00F3E5EC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>68A7D9101C117DCA001A4DF8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D31E4B1119F62CEE00967F5E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F96944C71EB83EF800F980C1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F975EAD01F32C99400CDA044</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

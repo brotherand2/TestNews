@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>kThemeText1Color</key>
+	<string>#808080</string>
+	<key>kThemeText2Color</key>
+	<string>#808080</string>
+	<key>kThemeText3Color</key>
+	<string>#5c5c5c</string>
+	<key>kThemeText5Color</key>
+	<string>#656565</string>
+	<key>kThemeText6Color</key>
+	<string>#707070</string>
+	<key>kThemeText7Color</key>
+	<string>#5c5c5c</string>
+	<key>kBackgroundColor</key>
+	<string>#1e1f20</string>
+	<key>kThemeBg1Color</key>
+	<string>#343434</string>
+	<key>kThemeBg3Color</key>
+	<string>#1f1f1f</string>
+	<key>kThemeBg4Color</key>
+	<string>#242424</string>
+	<key>kThemeBg5Color</key>
+	<string>#1f1f1f</string>
+	<key>kThemeCenterToastBgColor</key>
+	<string>#000000</string>
+	<key>kThemeRed1Color</key>
+	<string>#862718</string>
+	<key>kThemeBlue1Color</key>
+	<string>#2e3a5c</string>
+	<key>StoryProgressViewBgColor</key>
+	<string>#1a1a1a</string>
+	<key>kLiveGameDateTimeColor</key>
+	<string>#7f7f7f</string>
+	<key>HWTextColor</key>
+	<string>#ae803b</string>
+	<key>PUTextColor</key>
+	<string>#ff2f6a</string>
+	<key>HWProgressBGColor</key>
+	<string>#ad7b2e</string>
+	<key>GRTextColor</key>
+	<string>#2f9815</string>
+	<key>PUProgressBGColor</key>
+	<string>#ff2f6a</string>
+	<key>GRProgressBGColor</key>
+	<string>#2e9714</string>
+	<key>PUBGColor</key>
+	<string>#fef2f5</string>
+	<key>GRBGColor</key>
+	<string>#e9fdec</string>
+	<key>ReadSelectedHWColor</key>
+	<string>#ad7b2e</string>
+	<key>ReadSelectedPUColor</key>
+	<string>#ff2f6a</string>
+	<key>ReadSelectedGRColor</key>
+	<string>#2f9815</string>
+	<key>StoryReadBackgroundColor1</key>
+	<string>#fcf8f2</string>
+	<key>ReadNormalColor</key>
+	<string>#929292</string>
+</dict>
+</plist>

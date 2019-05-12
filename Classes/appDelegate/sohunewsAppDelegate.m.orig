@@ -1,0 +1,1568 @@
+//
+//  sohunewsAppDelegate.m
+//  sohunews
+//
+//  Created by zhu kuanxi on 5/16/11.
+//  Copyright 2011 sohu. All rights reserved.
+//
+
+#import "sohunewsAppDelegate.h"
+#import <QuartzCore/QuartzCore.h>
+#import "SNNotificationCenter.h"
+#import "SNMessageStatusBar.h"
+#import "SNURLJSONResponse.h"
+#import "SNURLRequest.h"
+#import "SNDBManager.h"
+#import "SNAPNSHandler.h"
+#import "SNUtility.h"
+#import "SNDebug.h"
+#import "JRSwizzle.h"
+#import "UIDevice-Hardware.h"
+#import "SNWXHelper.h"
+#import "SNQQHelper.h"
+#import "SNShareManager.h"
+#import "UIAlertView+Blocks.h"
+#import "SNCheckManager.h"
+#import "SNLiveSubscribeService.h"
+#import "SNWeatherCenter.h"
+#import "SNCacheCleanerManager.h"
+#import "SNSSOAdapter.h"
+#import "SNStatusBarMessageCenter.h"
+#import "revision.h"
+#import "SNWindow.h"
+#import "TTRequestLoader_extend.h"
+#import "ASIHTTPRequest.h"
+#import "SNAnalytics.h"
+#import "SNUserLocationManager.h"
+#import "SNRollingNewsFetcher.h"
+#import "SNNewsPreloader.h"
+#import "SNMessageMgr.h"
+//#import "EvernoteSession.h"
+//#import "ENConstants.h"
+#import "EvernoteHelper.h"
+#import "SNInterceptConfigManager.h"
+#import "SNStarGuideService.h"
+#import "SNNavigatorMap.h"
+#import "SNDBMigrationController.h"
+#import "SNDBExportor.h"
+#import "SNUserManager.h"
+#import "WSMVVideoPlayerConst.h"
+#import "SHMoviePlayerController.h"
+#import "SNNewsExposureManager.h"
+#import "SNLocalNotifReminder.h"
+#import "SNAppstoreRateHelper.h"
+#import "SNUpgradeHelper.h"
+#import "SNClientRegister.h"
+#import "SNSkinMaskWindow.h"
+#import "SNAppConfigManager.h"
+#import "SNPreference.h"
+#import "SNPreferenceStatus.h"
+#import "SNPopupActivityCenter.h"
+#import "SNPopupActivity.h"
+#import "SNAppMonitorsManager.h"
+#import "SNSamplingFrequencyGenerator.h"
+#import "SNRollingNewsPublicManager.h"
+#import "SNAppUsageStatManager.h"
+#import "SNDownloadScheduler.h"
+#import "SNToast.h"
+#import "SNNewUserGuideViewController.h"
+#import "SNExternalLinkHandler.h"
+#import "SNThemeManager.h"
+#import "SNTimelineSharedVideoPlayerView.h"
+#import "SHMoviePlayerController.h"
+#import "SNBusinessStatisticsManager.h"
+#import "UCPostLog.h"
+
+#import "SNSSOSinaWrapper.h"
+
+<<<<<<< HEAD
+#import "SNMySDK.h"
+=======
+#import "SNWDefine.h"
+#import "AFNetworking.h"
+>>>>>>> dbe5d90184a614a5e687d6b00f52e75788afa795
+
+static UIBackgroundTaskIdentifier __backgroundTask;
+
+@interface sohunewsAppDelegate ()<SNSplashViewDelegate,SKStoreProductViewControllerDelegate> {
+    Reachability *_networkReachability;
+    CGRect _rectNavigation;
+    BOOL _isGuideViewShow;
+    SNNewUserGuideViewController *_newUserGuideViewController;
+}
+@end
+
+@implementation sohunewsAppDelegate
+
+#pragma mark - Lifecycle
+- (id)init {
+    if (self = [super init]) {
+        _pushNotificationQueue = [[SNLineraQueue alloc] init];
+        _localNotifInfo = [[NSMutableDictionary alloc] init];
+        _hadReceiveRemoteNotificationAfterAppKilledOrInstallFirstly = NO;
+        _didColdStart = YES;
+        _hotStart = NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleShowSplashViewNotification)
+                                                     name:kShowSplashViewNotification
+                                                   object:nil];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    TT_RELEASE_SAFELY(_pushNotificationQueue);
+    TT_RELEASE_SAFELY(_localNotifInfo);
+    TT_RELEASE_SAFELY(_database);
+    TT_RELEASE_SAFELY(_networkReachability);
+    TT_RELEASE_SAFELY(_navigator);
+    TT_RELEASE_SAFELY(_rollingNewsCheck);
+    TT_RELEASE_SAFELY(_rollingNewsCheckTimer);
+    TT_RELEASE_SAFELY(_localNotif);
+    TT_RELEASE_SAFELY(_splashViewController);
+    TT_RELEASE_SAFELY(_newUserGuideViewController);
+    TT_RELEASE_SAFELY(_bandwidthView);
+    
+    if ([SNPreference sharedInstance].memUsageEnabled) {
+        TT_RELEASE_SAFELY(_memory);
+    }
+    [super dealloc];//test
+    //test2
+}
+
+#pragma mark - AppDelegate
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    NSLog(@"----SCREEN - w=%ld,h=%ld",(NSInteger)[UIScreen mainScreen].bounds.size.width,(NSInteger)[UIScreen mainScreen].bounds.size.height);
+    NSLog(@"Home directory is: %@", NSHomeDirectory());
+    
+// 测数据库升级用的代码，不要时可以删了
+//    [[NSUserDefaults standardUserDefaults] setObject:@"3_7_0" forKey:kSqliteVersionKey];
+    
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
+    /**
+     * 主线程中初始化App网络状态
+     * 1）initNetworkCheck内部Reachability内部实现依赖CFRunLoopGetCurrent()
+     * 2）后续网络请求(SplashModel等)会依赖isNetworkReachable状态
+     */
+    [self initNetworkReability];
+    
+    //加载用于"设置App"里的配置信息
+    SNPreferenceStatus *preferenceStatus = [[SNPreference sharedInstance] loadAndCheckChanged];
+    if (preferenceStatus.needRegisterClient) {
+        [[SNClientRegister sharedInstance] reset];
+    }
+    
+    /**
+     * 注册设备并返回cid
+     * 此方法不能异步执行(dispatch_asyn)，否则会导致后续使用SNClientRegister的成员变量值不同步。
+     */
+    [[SNClientRegister sharedInstance] updateClientInfoToServer];
+    
+    //替换某些系统方法的默认实现
+    [self swizzleMethods];
+    
+    //数据库有效性检测和迁移
+    [self checkDatabase];
+    [[SNDBMigrationController sharedInstance] migrate];
+    if (preferenceStatus.devModeChanged) {
+        [[SNCacheCleanerManager sharedInstance] cleanManually];
+    }
+    
+    //初始化TabBarViewController以及TabItem对应的ViewControllers
+    _navigator = [TTNavigator navigator];
+    _navigator.persistenceMode = TTNavigatorPersistenceModeNone;
+    _navigator.window = [[[SNWindow alloc] initWithFrame:TTScreenBounds()] autorelease];
+    _window = _navigator.window;
+    [_window makeKeyAndVisible];
+    [SNNavigatorMap mapTabBarAndTabItemControllers];
+    [_navigator openURLAction:[TTURLAction actionWithURLPath:@"tt://tabBar"]];
+    
+    //初始化日夜间模式
+    NSString *currentTheme = [[NSUserDefaults standardUserDefaults] objectForKey:kThemeSelectedKey];
+    if (currentTheme && [currentTheme length] > 0) {
+        [[SNThemeManager sharedThemeManager] setCurrentTheme:currentTheme];
+    } else {
+        [[SNThemeManager sharedThemeManager] setCurrentTheme:kThemeDefault];
+    }
+    
+    //新手引导
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:kNewUserGuideHadBeenShown] && !_newUserGuideViewController) {
+        [self splashViewDidShow];
+        _newUserGuideViewController = [[SNNewUserGuideViewController alloc] init];
+        _newUserGuideViewController.delegate = self;
+        [_navigator.window addSubview:_newUserGuideViewController.view];
+    }
+    //Loading页
+    else {
+        if (!_splashViewController) {
+            _splashViewController = [[SNSplashViewController alloc] initWithRefer:SNSplashViewReferAppLaunching];
+            _splashViewController.delegate = self;
+        }
+        [_navigator.window addSubview:_splashViewController.view];
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////// 此处不要用来做初始化操作，会卡住loading页显示！请在splashViewDidShow里做 ///////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (userInfo && [userInfo isKindOfClass:[NSDictionary class]]) {
+        [_pushNotificationQueue checkIn:userInfo];
+        [[SNAPNSHandler sharedInstance] didReceiveRemoteNotification:userInfo];
+        _hadReceiveRemoteNotificationAfterAppKilledOrInstallFirstly = YES;
+    } else {
+        if (launchOptions) {
+            UILocalNotification * localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+            if (localNotif) {
+                _localNotif = [localNotif retain];
+            }
+        }
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////// 此处不要用来做初始化操作，会卡住loading页显示！请在splashViewDidShow里做 ///////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+// 模拟push消息
+//    3063462 是组图新闻 -- 正式服
+//    32380916 图文新闻的id  -- 正式服
+//    14800129 组图新闻 -- 测试服
+//    14552298 投票新闻 -- 测试服
+//    [self application:[UIApplication sharedApplication] didReceiveRemoteNotification:@{@"aps":@"no aps", @"url":@"news://channelId=1&newsId=14552298"}];
+//
+//    [self application:[UIApplication sharedApplication] didReceiveRemoteNotification:@{@"title":@"搜狐新闻",@"sound":@(1),@"alert":@"[视频]《一步之遥》为什么很多人中途离场|颜值负分：日本相亲节目的嘉宾都这幅模样",@"netstatus":@"wifi",@"pt":@(1),@"msgId":@"100994000",@"pkg":@"com.sohu.newsclient,com.mobilesrepublic.sohu",@"show":@"1",@"type":@(1),@"url":@"video://channelId=1&vid=4290610&mid=30639097"}];
+//
+    
+    //为了让播放器暂停
+    //为了解决Bug：播放过程中进入后台，然后通过微信等第三方App打开新的一个新闻页，之前播放的视频已不可以见了，但becomeActive时会自动播
+    //[[NSNotificationCenter defaultCenter] postNotificationName:kSNPlayerViewPauseVideoNotification object:nil];
+    //lijian 2015.01.17 如果从通知进入时，视频是播放状态则停止播放 上面的发通知只是调用了pause，实际上pause确不能暂停视频，这个问题很奇怪
+    //[SNTimelineSharedVideoPlayerView fakeStop];
+    //[SNTimelineSharedVideoPlayerView forceStop];
+    [self performSelector:@selector(pausePlayer) withObject:self afterDelay:0.1];
+
+    [[SNAppUsageStatManager sharedInstance] statAppLaunchingRefer:SNAppLaunchingRefer_Other];
+    
+    NSRange range = [url.absoluteString rangeOfString:@"sohunews://pr/channel://"];
+    
+    if (range.location == NSNotFound) {
+        // 兼容老的包名
+        range = [url.absoluteString rangeOfString:@"sohunewsiphone://pr/channel://"];
+    }
+    
+    // 处理调起客户端的包名，兼容老版本。其实我不想兼容，但是H5的人强烈要求，算了，放过他们。 add by Cae
+    if (range.location == 0) {
+        NSMutableString *absURL = [NSMutableString stringWithString:url.absoluteString];
+        
+        // 兼容老的包名，去掉包名，统一更换位最新的包名
+        range = [absURL rangeOfString:@"sohunewsiphone://" options:NSCaseInsensitiveSearch];
+        
+        if (range.location == 0) {
+            [absURL replaceCharactersInRange:range withString:@"sohunews://"];
+        }
+        
+        url = [NSURL URLWithString:absURL];
+    }
+    
+    //新浪微博(AppKey:1315804458)、腾讯微博(AppKey:801126133)、QQ；另注：腾讯微博在iOS低版本(5.0)采用SSO方式，iOS高版本(6.0及以上)采用OAuth方式认证
+    if ([SNSSOAdapter handleOpenUrl:url]) {
+        return YES;
+    }
+    else if ([WXApi handleOpenURL:url delegate:[SNWXHelper sharedInstance]]) {
+        return YES;
+    }
+    else if ([SNQQHelper handleOpenURL:url sourceApplication:sourceApplication annotation:annotation]) {
+        return YES;
+    }
+    else if ([EvernoteHelper handleOpenUrl:url]) {
+        return YES;
+    }
+    else if ([self handleOpenUrl:url]) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    /*
+     Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+     Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+     */
+    
+    [[SNRollingNewsPublicManager sharedInstance] recordLeaveHomeTime];
+    
+    [[SNSkinMaskWindow sharedInstance] resignAppActive];
+    UIViewController* controller = [[TTNavigator navigator] visibleViewController];
+    _rectNavigation = controller.flipboardNavigationController.view.frame;
+    
+    if ([controller respondsToSelector:@selector(viewControllerWillResignActive)]) {
+        [controller performSelector:@selector(viewControllerWillResignActive)];
+    }
+    
+    //取消定时检查快讯
+    [_rollingNewsCheckTimer invalidate];
+    TT_RELEASE_SAFELY(_rollingNewsCheckTimer);
+    
+    // 关闭广告timer
+    [SNCheckManager stopCheckService];
+    
+    // 关闭长连接push消息系统timer
+    [[SNMessageMgr sharedInstance] stopTimer];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    /*
+     Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+     If your application supports background execution, called instead of applicationWillTerminate: when the user quits.
+     */
+    _hotStart = YES;
+    [self fixiOS6PinyinCrash];
+    [[SNRollingNewsPublicManager sharedInstance] recordLeaveHomeTime];
+    
+    // 设置app长时间未使用本地提醒
+    [SNLocalNotifReminder setupLocalNotifications];
+    
+    //挂起下载器
+    //[[SNDownloadManager sharedInstance] suspend];
+    [[SNDownloadScheduler sharedInstance] doSuspendIfNeeded];
+    
+    // 记住当前Tab
+    [[self appTabbarController] saveCurrentTabIndex];
+    
+    if ([_splashViewController isSplashViewVisible]) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    }
+    
+#if AUTO_CLEAR_CACHE_ENABLE
+    [[SNCacheCleanerManager sharedInstance] cleanAutomatically];
+#endif
+    
+    // 暂停wifi下自动离线
+    [[SNNewsPreloader sharedLoader] pauseAllWifiDownloadOperations];
+    
+    //保存曝光记录到文件
+    [[SNNewsExposureManager sharedInstance] saveAllExposureNewsToFile];
+    
+    //向服务器发送访问时间
+    [[SNAppUsageStatManager sharedInstance] statAppResigning];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    
+    /*
+     Called as part of  transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
+     */
+    
+    
+    if (([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0))
+    {
+        if (__backgroundTask != UIBackgroundTaskInvalid) {
+            [[UIApplication sharedApplication] endBackgroundTask:__backgroundTask];
+            __backgroundTask = UIBackgroundTaskInvalid;
+        }
+    }
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideStatusbarWhenAppear" object:nil];
+    
+    [[SNAppUsageStatManager sharedInstance] statAppLaunching];
+    
+    NSString *token = [[NSUserDefaults standardUserDefaults] valueForKey:kDevicetokenKey];
+    
+    if (nil == token && nil != [SNClientRegister sharedInstance].deviceToken) {
+        [[NSUserDefaults standardUserDefaults] setObject:[SNClientRegister sharedInstance].deviceToken forKey:kDevicetokenKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [[SNClientRegister sharedInstance] updateClientInfoToServer];
+    }
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    
+    [[SNSkinMaskWindow sharedInstance] becameAppActive];
+    dispatch_queue_t default_background_queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    /*
+     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+     */
+    BOOL delayRefreshShareManager = NO;
+    SNDebugLog(@"[TTURLRequestQueue mainQueue].suspende= %d",[TTURLRequestQueue mainQueue].suspended);
+    
+    //清空push通知列表
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
+    if (_rectNavigation.origin.y < 0) {
+        [self performSelector:@selector(showNavigationController) withObject:self afterDelay:0.01];
+    }
+    
+    if (!_isColdLaunch) {
+        _isColdLaunch = YES;
+        //启动时检验账号有效性
+        delayRefreshShareManager = [[SNUserManager shareInstance] checkTokenValid];
+    } else {
+        [[SNClientRegister sharedInstance] updateClientInfoToServer];
+    }
+    
+    // 检查是否有新快讯
+    [self performSelector:@selector(refreshRollingNews) withObject:nil afterDelay:2];
+    
+    if (_localNotif) {
+        [self openLive:_localNotif.userInfo];
+        TT_RELEASE_SAFELY(_localNotif);
+    }
+    
+    dispatch_async(default_background_queue, ^{
+        // 更新本地通知信息
+        [[SNLiveSubscribeService sharedInstance] refreshSubscribeInfo];
+    });
+    
+    dispatch_async(default_background_queue, ^{
+        // 取消长时间未启动应用检测提醒
+        [SNLocalNotifReminder cancelLocalNotifications];
+    });
+    
+    if ([SNPreference sharedInstance].debugModeEnabled) {
+        dispatch_async(default_background_queue, ^{
+            // 打印当前本地通知列表
+            [SNLocalNotifReminder printAllPendingLocalNotifications];
+        });
+    }
+    
+    // refresh sharelist
+    if(!delayRefreshShareManager) {
+        dispatch_async(default_background_queue, ^{
+            [SNShareManager startWork];
+        });
+    }
+    
+    [SNCheckManager startCheckService:DefaultRefreshInterval];
+    
+    // 启动之后刷新下默认天气
+    if ([SNClientRegister sharedInstance].isRegisted) {
+        dispatch_async(default_background_queue, ^{
+            [[SNWeatherCenter defaultCenter] refreshDefaultCityWeather:nil];
+        });
+    }
+    
+    [self refreshVisibleController];
+    
+    // sso reset some state.
+    [SNSSOAdapter handleApplicationDidBecomeActive];
+    
+#if USE_Evernote
+    [[EvernoteSession sharedSession] handleDidBecomeActive];
+#endif
+    
+    if (!_openUrlHandled && _openUrl) {
+        //        [self handleOpenUrl:[NSURL URLWithString:[_openUrl absoluteString]]];
+        [self performSelector:@selector(handleOpenUrl:) withObject:[NSURL URLWithString:[_openUrl absoluteString]]];
+        //[self performSelector:@selector(handleOpenUrl:) withObject:[NSURL URLWithString:[_openUrl absoluteString]] afterDelay:0.5];
+        _openUrlHandled = YES;//5.1修改widget bug 38950
+    }
+    
+    SNDebugLog(@"[TTURLRequestQueue mainQueue].suspende= %d",[TTURLRequestQueue mainQueue].suspended);
+    
+    dispatch_async(default_background_queue, ^{
+        // 继续wifi下自动离线
+        [[SNNewsPreloader sharedLoader] resumeAllWifiDownloadOperation];
+    });
+    
+    dispatch_async(default_background_queue, ^{
+        // 启动长连接push消息系统
+        [[SNMessageMgr sharedInstance] connect];
+    });
+    
+    // 4.0 用户行为拦截 启动到前台后及时刷新最新的拦截配置 by jojo
+    if ([SNClientRegister sharedInstance].isRegisted && [SNClientRegister sharedInstance].isDeviceModelAdapted) {
+        //不能在后台线程中发送请求，后台线程的runloop默认没有启动，请求发不出去
+        [SNInterceptConfigManager refreshConfig];
+    }
+    
+    dispatch_async(default_background_queue, ^{
+        //根据上次定位时间判断是否定位
+        if (_hotStart) {
+            [[SNUserLocationManager sharedInstance] updateLocationWithDate];
+        }
+    });
+    
+    /**
+     * 初始化视频下载器:
+     * 1) 把之前没有下载完的数据库视频属性(进度、状态等)同步到内存
+     * 2) 把Terminate时正在下载的视频状态更改为暂停并同步到数据库
+     */
+    dispatch_async(default_background_queue, ^{
+        [SNVideoDownloadManager sharedInstance];
+    });
+    
+    /**
+     * 特别说明：
+     * 冷启动都会刷新setting.go接口
+     * 冷启动时：
+     *      升级检查完毕时(didFinishUpgradeCheck)，如果无需升级会则先请求setting.go再调用“活动弹窗“；如果需升级提示则只请求setting.go接口数据。
+     * 热启动：
+     *      每次都要请求setting.go接口， 之后再调用“活动弹窗“。
+     */
+    if (_hotStart) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[SNAppConfigManager sharedInstance] requestConfigSync];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[SNPopupActivityCenter defaultCenter] popupActivityIfNeeded];
+            });
+        });
+    }
+}
+
+- (void)pausePlayer
+{
+    SNTimelineSharedVideoPlayerView *timelineVideoPlayer = [SNTimelineSharedVideoPlayerView sharedInstance];
+    [timelineVideoPlayer stop];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [self closeDatabase];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+    [[SNWeatherCenter defaultCenter] clean];
+    [[TTURLCache sharedCache] removeAll:NO];
+    [[SNThemeManager sharedThemeManager] dumpAllCachedImages];
+    [[SNThemeManager sharedThemeManager] clearAllCachedImages];
+}
+
+#pragma mark - === Begin: Public区段 ===
+- (BOOL)isGuideViewShow {
+    return _isGuideViewShow;
+}
+
+- (BOOL)shouldDownloadImagesManually {
+    if ([SNPreference sharedInstance].pictureMode == kPicModeWiFi && [self isWWANNetworkReachable]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (SNTabBarController *)appTabbarController {
+    TTURLMap* map = _navigator.URLMap;
+    id obj = [map objectForURL:@"tt://tabBar"];
+    if (obj) {
+        return (SNTabBarController *)obj;
+    }
+    return nil;
+}
+
+- (BOOL)canOpenInnerAppStoreWithAppId:(NSString *)appId {
+    __block BOOL bRet = NO;
+    if (appId.length > 0) {
+        SKStoreProductViewController *storeController = [[[SKStoreProductViewController alloc] init] autorelease];
+        storeController.delegate = self;
+        
+        // Example app_store_id (e.g. for Words With Friends)
+        // [NSNumber numberWithInt:322852954];
+        NSDictionary *productParameters = @{ SKStoreProductParameterITunesItemIdentifier : appId};
+        [SNNotificationCenter showLoadingAndBlockOtherActions:@"请稍后..."];
+        
+        [storeController loadProductWithParameters:productParameters completionBlock:^(BOOL result, NSError *error) {
+            [SNNotificationCenter hideLoadingAndBlock];
+            if (result) {
+                //                [[[TTNavigator navigator] topViewController] presentModalViewController:storeController animated:YES];
+            }
+            else {
+                SNDebugLog(@"Error: %@", [error localizedDescription]);
+                [SNNotificationCenter showExclamation:@"应用加载失败"];
+            }
+        }];
+        
+        //在loadProductWithParameters block 中弹出storeController，连接不上appstore时会卡住UI
+        [[[TTNavigator navigator] topViewController] presentViewController:storeController animated:YES completion:nil];
+        
+        bRet = YES;
+    }
+    
+    return bRet;
+}
+#pragma mark === End: Public区段 ===
+
+#pragma mark - === Begin: Delegate区段 ===
+#pragma mark Delegate - SNSplashViewDelegate
+//此处是用来在loading页显示出来之后做的整个程序的初始化操作
+- (void)splashViewDidShow {
+
+    [[SNAppUsageStatManager sharedInstance] statAppLaunchingRefer:SNAppLaunchingRefer_iCon];
+    
+    [SNNavigatorMap mapBusinessViewControllers];
+    
+    //记录加载时访问时间
+    [[SNAppUsageStatManager sharedInstance] statAppLaunching];
+    
+    dispatch_queue_t default_background_queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    dispatch_async(default_background_queue, ^{
+        //fixbug: 在ios6，消息提示条 正在显示的时候，如果弹出字典页面 收回后，menuitem 不能弹出
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIWindowDidBecomeKeyNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+            if ([note.object isKindOfClass:[UIWindow class]]) {
+                UIWindow *keyWindow = (UIWindow *)note.object;
+                if ([keyWindow isKindOfClass:[SNMessageStatusBar class]]) {
+                    [self.window makeKeyAndVisible];
+                }
+            } ;
+        }];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(newUserGuideViewDidCloseNotification:)
+                                                     name:kNewUserGuideViewDidCloseNotification
+                                                   object:nil];
+    });
+
+    //启动清除所有推荐新闻
+    dispatch_async(default_background_queue, ^{
+        [[SNDBManager currentDataBase] clearAllRecommendNewsList];
+    });
+
+    dispatch_async(default_background_queue, ^{
+        // 禁用网络请求时 系统状态栏上的小菊花 by jojo (PS. 不让别人轻易发现我们在发各种统计)
+        [ASIHTTPRequest setShouldUpdateNetworkActivityIndicator:NO];
+    });
+    
+#if 0
+    // 判断在ios7系统上 开启后台请求
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    }
+    else {
+        SNDebugLog(@"device with ios %@ not support background fetch!", [[UIDevice currentDevice] systemVersion]);
+    }
+#endif
+    
+    dispatch_async(default_background_queue, ^{
+        // version 4.0 用户行为拦截 add by jojo
+        [SNInterceptConfigManager initConfig];
+    });
+    
+    //请求名人引导登陆数据，延迟加载3秒
+    [[SNStarGuideService shareInstance] performSelector:@selector(startReqeustStar) withObject:nil afterDelay:3.0];
+    [[TTURLRequestQueue mainQueue] setMaxContentLength:0];
+    
+    dispatch_async(default_background_queue, ^{
+        [[SNDBExportor sharedInstance] exportDB];
+    });
+    
+    
+    //You might easily run out of memory while using TTImageView. The reason is that the controller uses both disk and memory space to store image cache via the TTURLCache mechanism.
+    //Disable the in-memory cache at all
+    [[TTURLCache sharedCache] setDisableImageCache:YES];
+    
+	//register remote notification to respond to APNs
+    [self registerRemoteNotification];
+    
+    //清空push通知列表
+	[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
+    [self showASIBandWidthIfNeeded];
+    
+    dispatch_async(default_background_queue, ^{
+        // 清空用户评论列表
+        [[SNDBManager currentDataBase] clearNewsComment];
+    });
+    
+    dispatch_async(default_background_queue, ^{
+        // register for weixin
+        [SNWXHelper initWXApi];
+    });
+    
+    // qq初始化放在子线程会crash
+    // register for qq
+    [SNQQHelper initQQApi];
+    dispatch_async(default_background_queue, ^{
+        //5.2 add register for sina
+        [SNSSOSinaWrapper sinaSDKRegister];
+    });
+    
+#if USE_Evernote
+    [EvernoteHelper initSession];
+#endif
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];//此行代码竟然花了0.25s
+    
+    if ([SNPreference sharedInstance].memUsageEnabled) {
+        _memory = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, 320, 30)];
+        _memory.backgroundColor = [UIColor clearColor];
+        _memory.textColor = [UIColor blueColor];
+        _memory.font = [UIFont systemFontOfSize:12.0];
+        [_window addSubview:_memory];
+        
+        //注意：Timer放到子线程里是因为：Timer在主线程中使用会阻塞UI主线程。在子线程里启timer就可以解决这个问题，如果需要更新UI再回到主线程更新UI即可。
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSTimer *timer = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:1]
+                                                      interval:0.5 target:self selector:@selector(getRemainMemery) userInfo:nil repeats:YES];
+            [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+            [timer release];
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate distantFuture]];
+        });
+    }
+    
+    [[self appTabbarController] loadTabs];//这个函数会卡主线程2秒，必须延迟调用！
+    
+    dispatch_async(default_background_queue, ^{
+        [SHMoviePlayerController registerAppKey:kSHVideoSDKAppKeyForSohuNews];
+    });
+    
+    dispatch_async(default_background_queue, ^{
+        [[SNMySDK sharedInstance] setupSNS];
+    });
+    
+    //初始化网络请求采样机制
+    [SNSamplingFrequencyGenerator sharedInstance];
+    
+    dispatch_async(default_background_queue, ^{
+        [SNExternalLinkHandler sharedInstance].isAppLoad = YES;
+        
+        NSURL *url = [[SNExternalLinkHandler sharedInstance] loadExternalLinkFromConfigFile];
+        
+        if (nil != url) {
+            [[SNExternalLinkHandler sharedInstance] setExternalLink:url];
+        }
+    });
+    
+    dispatch_async(default_background_queue, ^(){
+        [UCPostLog postLog];
+    });
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSplashViewDidShow object:nil];
+    }) ;
+}
+
+- (void)splashViewWillExit {
+    [self guideMaskDidFinish];
+}
+
+- (void)splashViewDidExit {
+}
+
+- (void)splashModalViewDidshow:(UIViewController *)modalViewController {
+    [[self appTabbarController] presentViewController:modalViewController animated:NO completion:nil];
+}
+
+- (void)splashModalViewWillDismiss:(UIViewController *)modalViewController {
+    [[self appTabbarController] dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Delegate - SKStoreProductViewControllerDelegate
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    [SNNotificationCenter hideLoadingAndBlock];
+    [SNRollingNewsPublicManager sharedInstance].homeRecordTimeClose = YES;
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Delegate - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if ([[alertView title] isEqualToString:kBundleNameKey]) {
+        _notifyAlertShown = NO;
+        //查看
+        if (buttonIndex == 1) {
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
+            [UIApplication sharedApplication].statusBarHidden = NO;
+        }
+        //关闭
+        else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kDidClosePushNotificationAlertViewNotification object:nil];
+        }
+    }
+}
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    //Push Notification推送处理
+    if ([[alertView title] isEqualToString:kBundleNameKey]) {
+        _notifyAlertShown = NO;
+        //查看
+        if (buttonIndex == 1) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotifyExpressShow object:nil userInfo:nil];
+            
+            //更新订阅库中的termId，当在我的订阅列表刷新出该刊物最新一期信息时，由于termId相同，不再设置为‘新’
+            [self updateLocalTermId];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 0.8),
+                           dispatch_get_main_queue(),
+                           ^(){
+                    [[SNAPNSHandler sharedInstance] handleReciveNotify];
+                });
+        }
+        //关闭
+        else {
+            [_pushNotificationQueue checkOut];
+            // 查看push队列 如果有push继续弹alert
+            if (_pushNotificationQueue.count > 0) {
+                [self performSelector:@selector(handleNotifyInQueue) withObject:nil afterDelay:kNotificationAlertAppearTimeDiff]; // 直接去弹下一个alert在4.x 5.x的设备上  有可能还是意外丢失焦点 @jojo
+            }
+        }
+    }
+    
+}
+#pragma mark === End: Delegate区段 ===
+
+#pragma mark - === Begin: Private区段 ===
+#pragma mark - Private - Normal
+- (void)updateLocalTermId {
+    NSDictionary *_pushNotificationData = (NSDictionary *)[_pushNotificationQueue objectAtIndex:0];
+    if (!_pushNotificationData) {
+        return;
+    }
+    NSString *pushURLStr = [_pushNotificationData objectForKey:kNotifyUrlKey];
+    if (nil == pushURLStr) {
+        pushURLStr = [_pushNotificationData objectForKey:kNotifyKey]; //v3.0.1以前都看pushurl属性，仍然收快讯报纸
+        pushURLStr = [pushURLStr stringByReplacingOccurrencesOfString:@".xml" withString:@""];//去掉.xml后缀
+    }
+    SNDebugLog(@"pushNotificationData : %@",_pushNotificationData);
+    SNDebugLog(@"pushURLStr : %@",pushURLStr);
+    if (_pushNotificationData && _pushNotificationData.count > 0 && pushURLStr && ![@"" isEqualToString:pushURLStr]) {
+        if (pushURLStr.length && ([pushURLStr hasPrefix:kProtocolPaper] || [pushURLStr hasPrefix:kProtocolDataFlow])) {
+            NSString *schema = ([pushURLStr hasPrefix:kProtocolPaper] ? kProtocolPaper : kProtocolDataFlow);
+            NSMutableDictionary *userInfo = [SNUtility parseProtocolUrl:pushURLStr schema:schema];
+            NSString *_subid = [userInfo objectForKey:@"subId"]; // 此处实际上是pubId
+            NSString *_termid = [userInfo objectForKey:@"termId"];
+            if (userInfo && userInfo.count > 0 && _subid && _termid) {
+                NSString *__pubId = _subid;
+                NSString *__termId = _termid;
+                NSMutableDictionary *changeInfo = [NSMutableDictionary dictionary];
+                [changeInfo setObject:__termId forKey:TB_SUB_CENTER_ALL_SUB_TERM_ID];
+                
+                // 去掉刊物‘新’标记
+                SCSubscribeObject * subObj = [[SNDBManager currentDataBase] getSubscribeCenterSubscribeObjectByPubId:__pubId];
+                                
+                if (subObj) {
+                    [subObj setStatusValue:[kNO_NEW_TERM intValue] forFlag:SCSubObjStatusFlagSubStatus];
+                    [changeInfo setObject:subObj.status forKey:TB_SUB_CENTER_ALL_SUB_STATUS];
+                }
+                
+                [changeInfo setObject:@"yes" forKey:@"manulSetStatus"];
+                
+                [[SNDBManager currentDataBase] updateSubscribeCenterSubscribeObjectByPubId:__pubId withValuePairs:changeInfo];
+                
+                // 通知
+                [[NSNotificationCenter defaultCenter] postNotificationName:kSubscribeCenterMySubDidChangedNotify object:nil userInfo:nil];
+            }
+        }
+    }
+}
+
+// 在直播间内收到该场比赛的push
+- (BOOL)isLiveGameVisible:(NSString *)liveId {
+    BOOL bWatching = NO;
+    if ([[[TTBaseNavigator globalNavigator] visibleViewController] respondsToSelector:@selector(isLiveGameShowing:)]) {
+        bWatching = (BOOL)[[_navigator topViewController] performSelector:@selector(isLiveGameShowing:) withObject:liveId];
+    }
+    return bWatching;
+}
+
+- (BOOL)checkForLivePush:(NSDictionary *)userInfo {
+    NSString *pushURLStr = [userInfo objectForKey:kNotifyUrlKey];
+    if ([pushURLStr startWith:kProtocolLive]) {
+        NSDictionary *dict = [SNUtility parseURLParam:pushURLStr schema:kProtocolLive];
+        NSString *liveId = [dict stringValueForKey:@"liveId" defaultValue:nil];
+        if ([self isLiveGameVisible:liveId]) {
+            [_pushNotificationQueue checkOut];
+            SNDebugLog(@"checkForLivePush: %@", userInfo);
+            // 如果是直播邀请，发送邀请通知消息
+            NSString *busi = [dict stringValueForKey:@"busi" defaultValue:nil];
+            if (busi) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kSNLiveInviteNotification
+                                                                    object:nil];
+            }
+            
+            // 查看push队列 如果有push继续弹alert
+            if (_pushNotificationQueue.count > 0) {
+                [self performSelector:@selector(handleNotifyInQueue) withObject:nil afterDelay:kNotificationAlertAppearTimeDiff]; // 直接去弹下一个alert在4.x 5.x的设备上  有可能还是意外丢失焦点 @jojo
+            }
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)dismissAlertOrActionSheet
+{
+    if ([SNAppstoreRateHelper sharedInstance].rateAlertView && [[SNAppstoreRateHelper sharedInstance].rateAlertView isVisible]) {
+        [[SNAppstoreRateHelper sharedInstance].rateAlertView dismissWithClickedButtonIndex:2 animated:YES];
+    }
+    
+    // 关闭actioinSheet
+    for (UIWindow *window in [UIApplication sharedApplication].windows) {
+        if([window isKindOfClass:NSClassFromString(@"_UIAlertOverlayWindow")])
+        {
+            NSArray *arr =[self allSubViews:window];
+            UIActionSheet *actionSheet = nil;
+            for (UIView *v in arr) {
+                if ([v isKindOfClass:[UIActionSheet class]]) {
+                    actionSheet = (UIActionSheet *)v;
+                    break ;
+                }
+            }
+            [actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
+        }
+    }
+}
+
+//热启动时（后台挂起之后进入）查看推送
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)receivedUserInfo {
+    [[SNAppUsageStatManager sharedInstance] statAppLaunchingRefer:SNAppLaunchingRefer_Push];
+    
+    //lijian 2015.01.17 如果从通知进入时，视频是播放状态则停止播放
+    //[SNTimelineSharedVideoPlayerView fakeStop];
+    //[SNTimelineSharedVideoPlayerView forceStop];
+    [self performSelector:@selector(pausePlayer) withObject:self afterDelay:0.1];
+
+    
+    NSMutableDictionary *userInfo = nil;
+    
+	if (receivedUserInfo) {
+        userInfo = [NSMutableDictionary dictionaryWithDictionary:receivedUserInfo];
+        [userInfo setObject:@"1" forKey:@"fromPush"];
+        
+        [_pushNotificationQueue checkIn:userInfo];
+        
+        [[SNAPNSHandler sharedInstance] didReceiveRemoteNotification:userInfo];
+        
+        // 收到了通知 发个notify
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotifyDidReceive object:nil];
+	}
+    
+    //只会在后台挂起(UIApplicationStateBackground)的时候运行，即程序后台挂起的时候接收到了通知
+	if (!(application.applicationState == UIApplicationStateActive)) {
+        [self updateLocalTermId];
+        [[SNAPNSHandler sharedInstance] handleReciveNotify];
+        
+        NSString *pushURLStr = [userInfo objectForKey:kNotifyUrlKey];//v3.0.1开始看url属性，为了兼容老版本不能接收即时新闻推送
+        if (nil == pushURLStr) {
+            pushURLStr = [userInfo objectForKey:kNotifyKey]; //v3.0.1以前都看pushurl属性，仍然收快讯报纸
+        }
+        
+        [[SNUserTrackRecorder sharedRecorder] setPushPage:[SNUserTrack trackWithPage:notify_push link2:pushURLStr]];
+        
+        // 3.7.2 push打开客户端 统计埋点
+        [[SNAnalytics sharedInstance] realtimeReportOpenAnalyze:@"client" from:@"push" dataIdString:nil];
+        
+	}
+    //程序运行中接收到了通知
+	else {
+        // 若当前正在此比赛的直播间观看，则不显示alertview
+        if ([self checkForLivePush:userInfo]) {
+            return;
+        }
+        
+		id apsDic = [userInfo objectForKey:@"aps"];
+        NSString *alertStr = nil;
+        
+        if (apsDic) {
+            if ([apsDic isKindOfClass:[NSDictionary class]]) {
+                alertStr = [apsDic objectForKey:@"alert"];
+            }
+            else if ([apsDic isKindOfClass:[NSString class]]) {
+                alertStr = apsDic;
+            }
+        }
+
+		if (alertStr && [alertStr length]) {
+            
+            [self dismissAlertOrActionSheet];
+            
+            if (!_notifyAlertShown) {
+                UIAlertView *confirmAlertView = [[[UIAlertView alloc]
+                                                  initWithTitle:kBundleNameKey
+                                                  message:alertStr
+                                                  delegate:self
+                                                  cancelButtonTitle:@"关闭"
+                                                  otherButtonTitles:@"显示", nil] autorelease];
+                
+                
+                [confirmAlertView show];
+                _notifyAlertShown = YES;
+            }
+		}
+	}
+    
+}
+
+- (void)handleNotifyInQueue {
+    NSDictionary *userInfo = [_pushNotificationQueue objectAtIndex:0];
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    //只会在后台挂起(UIApplicationStateBackground)的时候运行，即程序后台挂起的时候接收到了通知
+	if (!(application.applicationState == UIApplicationStateActive)) {
+        [self updateLocalTermId];
+        [[SNAPNSHandler sharedInstance] handleReciveNotify];
+        
+        // 3.7.2 push打开客户端 统计埋点
+        if (userInfo != nil) {
+            [[SNAnalytics sharedInstance] realtimeReportOpenAnalyze:@"client" from:@"push" dataIdString:nil];
+        }
+	}
+    //程序运行中接收到了通知
+	else {
+        // 若当前正在此比赛的直播间观看，则不显示alertview
+        if ([self checkForLivePush:userInfo]) {
+            return;
+        }
+
+		NSDictionary *apsDic = [userInfo objectForKey:@"aps"];
+		NSString *alertStr = nil;
+		if (apsDic) {
+			alertStr = [apsDic objectForKey:@"alert"];
+		}
+		if (alertStr && [alertStr length]) {
+            
+            [self dismissAlertOrActionSheet];
+            
+            // 程序运行中 收到了通知 发个notify
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotifyDidReceive object:nil];
+            
+            if (!_notifyAlertShown) {
+                UIAlertView *confirmAlertView = [[[UIAlertView alloc]
+                                                  initWithTitle:kBundleNameKey
+                                                  message:alertStr
+                                                  delegate:self
+                                                  cancelButtonTitle:@"关闭"
+                                                  otherButtonTitles:@"显示", nil] autorelease];
+                [confirmAlertView show];
+                _notifyAlertShown = YES;
+            }
+		}
+	}
+}
+/**
+ * 递归遍历view的所有子view  直到找到UIActionSheet
+ */
+- (NSArray *)allSubViews:(UIView *)v
+{
+    NSMutableArray *tmp = [NSMutableArray array];
+    for (UIView *v1 in v.subviews) {
+        [tmp addObject:v1];
+        if ([v1 isKindOfClass:[UIActionSheet class]]) {
+            return tmp;
+        }
+        [tmp addObjectsFromArray:[self allSubViews:v1]];
+    }
+    return tmp;
+}
+
+- (void)openLive:(NSDictionary *)notificationDict {
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    NSString *liveId = [notificationDict objectForKey:kLiveIdKey];
+    NSString *liveType = [notificationDict objectForKey:kLiveTypeKey];
+    
+    if (liveId) {
+        [userInfo setObject:liveId forKey:kLiveIdKey];
+    }
+    
+    if (liveType) {
+        [userInfo setObject:liveType forKey:kLiveTypeKey];
+    }
+    
+    if (liveId) {
+        TTURLAction *urlAction = [[[TTURLAction actionWithURLPath:@"tt://live"] applyAnimated:YES] applyQuery:userInfo];
+        [[TTNavigator navigator] openURLAction:urlAction];
+    }
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    
+	if (!(application.applicationState == UIApplicationStateActive)) {
+        //[[SNAPNSHandler sharedInstance] handleReciveNotify];
+        SNDebugLog(@"### didReceiveLocalNotification ### app not active");
+        
+        notification.applicationIconBadgeNumber = 0;
+        
+        NSString *liveId = [notification.userInfo objectForKey:kLiveIdKey];
+        if (liveId) {
+            [self openLive:notification.userInfo];
+            [[SNLiveSubscribeService sharedInstance] refreshSubscribeInfo];
+        }
+	}
+    //程序运行中接收到了通知
+	else {
+        SNDebugLog(@"### didReceiveLocalNotification ### app active %@", notification.userInfo);
+        notification.applicationIconBadgeNumber = 0;
+        
+        NSString *liveId = [notification.userInfo objectForKey:kLiveIdKey];
+        
+        if (liveId) {
+            BOOL bHasShowed = [[_localNotifInfo objectForKey:liveId] boolValue];
+            
+            NSString *alertStr = notification.alertBody;
+            if (!bHasShowed && alertStr && [alertStr length]) {
+                
+                // 若当前正在此比赛的直播间观看，则不显示alertview
+                BOOL bWatching = [self isLiveGameVisible:liveId];
+                SNDebugLog(@"isWatching %@: %d", liveId, bWatching);
+                
+                if (!bWatching) {
+                    
+                    [self dismissAlertOrActionSheet];
+                    
+                    [_localNotifInfo setObject:@"1" forKey:liveId];
+                    NSString *title = NSLocalizedString(@"liveRoom", @"liveRoom");
+                    [UIAlertView displayAlertWithTitle:title
+                                               message:alertStr
+                                       leftButtonTitle:@"关闭"
+                                      leftButtonAction:nil
+                                      rightButtonTitle:@"显示"
+                                     rightButtonAction: ^{
+                                         [self openLive:notification.userInfo];
+                                     }];
+                }
+                
+            } else {
+                SNDebugLog(@"##### %@ already showed", notification.userInfo);
+            }
+            
+            [[SNLiveSubscribeService sharedInstance] refreshSubscribeInfo];
+        }
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+	if ([SNClientRegister sharedInstance].deviceToken) {
+		[SNClientRegister sharedInstance].deviceToken = nil;
+	}
+    NSString *tokenString = [[NSString stringWithFormat:@"%@", deviceToken] stringByTrimmingCharactersInSet:[NSCharacterSet symbolCharacterSet]];
+	[SNClientRegister sharedInstance].deviceToken = [tokenString trim];
+	
+    //重要日志，采用NSLog输出
+	NSLog(@"apn token = %@", [SNClientRegister sharedInstance].deviceToken);
+	
+	NSString *deviceTokenSaved = [[NSUserDefaults standardUserDefaults] stringForKey:kDevicetokenKey];
+	if ([SNClientRegister sharedInstance].deviceToken == nil
+        || ![[NSUserDefaults standardUserDefaults] boolForKey:kNewUserGuideHadBeenShown]  // 第一次启动必须报
+        || ([SNClientRegister sharedInstance].deviceToken
+            && ![[SNClientRegister sharedInstance].deviceToken isEqualToString:deviceTokenSaved]))
+    {
+		// save token
+        [SNClientRegister sharedInstance].deviceTokenChanged = YES;
+		[[NSUserDefaults standardUserDefaults] setObject:[SNClientRegister sharedInstance].deviceToken forKey:kDevicetokenKey];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		[[SNClientRegister sharedInstance] updateClientInfoToServer];
+        [SNClientRegister sharedInstance].deviceTokenChanged = NO;
+	}
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    //重要日志，采用NSLog输出
+	NSLog(@"Error in registration. Error: %@", error);
+    
+    [SNClientRegister sharedInstance].deviceToken = nil;
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kDevicetokenKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[SNClientRegister sharedInstance] updateClientInfoToServer];
+}
+
+#pragma mark - Private - Network Reachablity
+- (void)initNetworkReability {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reachabilityChanged:)
+                                                 name:kReachabilityChangedNotification
+                                               object:nil];
+    [_networkReachability release];
+    _networkReachability = nil;
+	_networkReachability = [[Reachability reachabilityForInternetConnection] retain];
+	[_networkReachability startNotifier];
+	self.isNetworkReachable = [_networkReachability currentReachabilityStatus] != NotReachable;
+}
+
+- (Reachability *)getInternetReachability {
+    return _networkReachability;
+}
+
+- (void)reachabilityChanged:(NSNotification* )note {
+    Reachability* curReach = [note object];
+    if (curReach == _networkReachability) {
+        self.isNetworkReachable = [_networkReachability currentReachabilityStatus] != NotReachable;
+        if (!_isNetworkReachable) {
+            [SNNotificationCenter showExclamation:NSLocalizedString(@"network error", @"")];
+        } else {
+            [[SNClientRegister sharedInstance] setupCookie];
+        }
+    }
+    SNDebugLog(@"Network change! _internetReach=%d", [_networkReachability currentReachabilityStatus]);
+}
+
+- (BOOL)isWWANNetworkReachable {
+    return [_networkReachability currentReachabilityStatus] == ReachableViaWWAN;
+}
+
+- (NetworkStatus)currentNetworkStatus {
+    return [_networkReachability currentReachabilityStatus];
+}
+
+- (NSString *)currentNetworkStatusString {
+    //wifi or 3G or gprs
+    NSString *reachStatus = nil;
+    NetworkStatus netStatus = [_networkReachability currentReachabilityStatus];
+    if (ReachableViaWiFi == netStatus) {
+        reachStatus = @"wifi";
+    }
+    else if (ReachableViaWWAN == netStatus) {
+        reachStatus = @"WWAN";
+    }
+    return reachStatus;
+}
+
+#pragma mark - Private - DataBase
+- (void)checkDatabase {
+    SNStopWatch *watch = [SNStopWatch watch];
+    if ([SNPreference sharedInstance].debugModeEnabled) {
+        [watch begin];
+    }
+    
+    BOOL bCorrupted = [[SNDBMigrationManager sharedInstance] isDatabaseCorrupted];
+    
+    if ([SNPreference sharedInstance].debugModeEnabled) {
+        [watch stop];
+        [watch print:@"check DB"];
+    }
+    
+    if (bCorrupted) {
+        SNDebugLog(@"===DB is corrupted after migration.");
+        [[SNDBMigrationManager sharedInstance] migrateBaseOnSqliteFileInBunle];
+    }
+}
+
+- (void)closeDatabase {
+	[self.database close];
+}
+
+#pragma mark - Loading页保存图片的回调
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (error) {
+        [[SNToast shareInstance] showToastWithTitle:NSLocalizedString(@"PhotoDownloadFail_IOS6", @"")
+                                              toUrl:nil
+                                               mode:SNToastUIModeWarning];
+    } else {
+        [[SNToast shareInstance] showToastWithTitle:NSLocalizedString(@"PhotoSavedToAlbum", @"Photo Saved To Album")
+                                              toUrl:nil
+                                               mode:SNToastUIModeSuccess];
+    }
+}
+
+#pragma mark - 升级检查回调
+//冷启动升级检查时会回调到这里
+- (void)didFinishUpgradeCheck:(BOOL)needAlertUpgradeMessage {
+    [SNUpgradeHelper sharedInstance].delegate = nil;
+    //无升级提示时需要进行“活动弹窗“(有活动就弹、无就不弹)
+    if (!needAlertUpgradeMessage) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[SNAppConfigManager sharedInstance] requestConfigSync];
+            SNPopupActivity *activity = [[SNAppConfigManager sharedInstance] popupActivity];
+            if (activity.identifier.length <= 0 || [activity.identifier isEqualToString:@"0"]) {
+                return;
+            }
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(activity.popupActivityTimeDelayAfterShowLoading * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [[SNPopupActivityCenter defaultCenter] popupActivityIfNeeded];
+            });
+        });
+    }
+    //有升级提示时不进行“活动弹窗“，但刷新一下setting.go接口数据
+    else {
+        [[SNAppConfigManager sharedInstance] requestConfigAsync];
+    }
+}
+
+#pragma mark - Private 
+- (void)guideMaskDidFinish {
+    //检查升级，并顺带检查网络是否可用然后负责提示出来
+    [SNUpgradeHelper sharedInstance].delegate = self;
+    [[SNUpgradeHelper sharedInstance] checkUpgrade];
+}
+
+- (void)getRemainMemery {
+    if ([SNPreference sharedInstance].memUsageEnabled) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _memory.text = [NSString stringWithFormat:@"mem:%.2fm", [UIDevice getAvailableMemory]];
+        });
+    }
+}
+
+- (void)fixiOS6PinyinCrash {
+    // ios6中文输入后锁屏之后就会crash，加上之后不会
+    if (([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0)) {
+        if (__backgroundTask != UIBackgroundTaskInvalid) {
+            [[UIApplication sharedApplication] endBackgroundTask:__backgroundTask];
+            __backgroundTask = UIBackgroundTaskInvalid;
+        }
+        __backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            [[UIApplication sharedApplication] endBackgroundTask:__backgroundTask];
+            __backgroundTask = UIBackgroundTaskInvalid;
+        }];
+    }
+}
+
+- (void)swizzleMethods {
+    NSError *error = nil;
+    [UIImage jr_swizzleClassMethod:@selector(imageNamed:) withClassMethod:@selector(altImageNamed:) error:&error];
+    [UIFont jr_swizzleClassMethod:@selector(systemFontOfSize:) withClassMethod:@selector(altSystemFontOfSize:) error:&error];
+    [UIFont jr_swizzleClassMethod:@selector(boldSystemFontOfSize:) withClassMethod:@selector(altBoldSystemFontOfSize:) error:&error];
+    [UIButton jr_swizzleMethod:@selector(setTitleColor:forState:) withMethod:@selector(altSetTitleColor:forState:) error:&error];
+    // for crashlytics log by jojo
+    [TTRequestLoader swithExtendMethod];
+}
+
+//当整个应用BecomeActive时，“刊物”、“滚动新闻”、“组图”视图可见时，就刷新列表数据
+- (void)refreshVisibleController {
+    if (_didColdStart) {
+        _didColdStart = NO;
+        return;
+    }
+    
+    UIViewController *_vc = [TTNavigator globalNavigator].visibleViewController;
+    if ([_vc respondsToSelector:@selector(refreshTableViewDataWhenAppBecomeActive)]) {
+        SNDebugLog(SN_String("%@, refreshing when become active."), NSStringFromSelector(_cmd));
+        [_vc performSelector:@selector(refreshTableViewDataWhenAppBecomeActive)];
+    }
+}
+
+// 检查新闻快讯
+- (void)refreshRollingNews {
+    if (_rollingNewsCheck == nil) {
+        _rollingNewsCheck = [[SNRollingNewsCheckLatest alloc] init];
+    }
+    if (_rollingNewsCheckTimer == nil) {
+        _rollingNewsCheckTimer = [[NSTimer scheduledTimerWithTimeInterval:600 target:self selector:@selector(refreshRollingNews) userInfo:nil repeats:YES] retain];
+    }
+    
+    if (_hadReceiveRemoteNotificationAfterAppKilledOrInstallFirstly) {
+        _hadReceiveRemoteNotificationAfterAppKilledOrInstallFirstly = NO;
+        return;
+    }
+    [_rollingNewsCheck checkExpressNews];
+}
+
+- (BOOL)handleOpenUrl:(NSURL *)openUrl {
+    if ([[openUrl absoluteString] hasPrefix:kSohuNewsUrlSchema]) {
+        _openUrlHandled = NO;
+        if (_openUrl != openUrl) {
+            TT_RELEASE_SAFELY(_openUrl);
+        }
+        _openUrl = [openUrl retain];
+        
+        if (_isColdLaunch) {
+            NSString *urlStr = [[_openUrl absoluteString] stringByReplacingOccurrencesOfString:kSohuNewsUrlSchema withString:@""];
+            
+            //sohunewsiphone://pr/二代协议，主要供H5页面里调用，可确保从H5里打开新一级的H5浏览器
+            if ([urlStr hasPrefix:@"pr/"]) {
+                //sohunewsiphone://pr/news://termId=xxx&newsId=yy
+                urlStr = [urlStr stringByReplacingOccurrencesOfString:@"pr/" withString:@""];
+                
+                // 为了加快闪屏速度，修改了loading页的加载时机和其他初始化的逻辑，于是产生了一个bug
+                // 该bug会导致外在客户端没启动时，部调起客户端的二代协议失效。 这里打个补丁。推迟0.5秒，等待客户端初始化完毕再调用
+                // add by Cae
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 0.5), dispatch_get_main_queue(), ^()
+                {
+                    _openUrlHandled = [SNUtility openProtocolUrl:urlStr];
+                });
+                
+                // 原来这里是返回_openUrlHandled = [SNUtility openProtocolUrl:urlStr];的，但是打了不定之后就变得无意义了。直接写死NO
+                return NO;//_openUrlHandled;
+            }
+            
+            //sohunewsiphone://news/${newsId} 早期的单独处理article的，已作废，有死循环bug
+            else {
+                NSArray *urlParams = [urlStr componentsSeparatedByString:@"/"];
+                if ([urlParams count] > 1) {
+                    NSString *openType = [urlParams objectAtIndex:0];
+                    if ([openType compare:@"news" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                        NSString *newsId = [urlParams objectAtIndex:1];
+                        NSMutableDictionary *query = [NSMutableDictionary dictionary];
+                        [query setObject:newsId forKey:kNewsId];
+                        [query setObject:@"1" forKey:kChannelId];
+                        [query setObject:kNewsOnline forKey:kNewsMode];
+                        
+                        TTURLAction *action = [[[TTURLAction actionWithURLPath:@"tt://newsContent"] applyAnimated:YES] applyQuery:query];
+                        
+                        [[TTNavigator navigator] openURLAction:action];
+                        
+                        TT_RELEASE_SAFELY(_openUrl);
+                        
+                        return (_openUrlHandled = YES);
+                    }
+                }
+            }
+        }
+    }
+    return NO;
+}
+
+- (void)showASIBandWidthIfNeeded {
+    
+    if ([SNPreference sharedInstance].bandwidthEnabled) {
+        if (!_bandwidthView) {
+            _bandwidthView = [[SNBandwidthView alloc] initWithFrame:CGRectMake(260, 20, 60, 20)];
+            [[UIApplication sharedApplication].keyWindow addSubview:_bandwidthView];
+        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            while(YES) {
+                sleep(1);
+                //过去5秒内的平均值
+                NSInteger _bindwidthBytes = [ASIHTTPRequest averageBandwidthUsedPerSecond];
+                CGFloat _bandwidth = _bindwidthBytes/1024.0f;
+    //            SNDebugLog(@"===ASI bandwidth: %.1fk/s", _bandwidth);
+                dispatch_async(dispatch_get_main_queue(), ^{
+    //                if (_bindwidthBytes > 0) {
+                        [_bandwidthView setText:[NSString stringWithFormat:@"%.1fK/S", _bandwidth]];
+    //                }
+                });
+            }
+        });
+    }
+}
+
+-(void)showNavigationController {
+    UIViewController* controller = [[TTNavigator navigator] visibleViewController];
+    controller.flipboardNavigationController.view.frame = _rectNavigation;
+}
+
+- (void)newUserGuideViewDidCloseNotification:(id)sender {
+    // do nothing
+    // 就是给用户行为拦截和未来的统计增加个切入的机会 by jojo
+}
+
+//ios8 model页面转屏后导致下层viewcontroller 转屏方式失效
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (void)handleShowSplashViewNotification {
+    if (!_splashViewController) {
+        _splashViewController = [[SNSplashViewController alloc] initWithRefer:SNSplashViewReferRollingNewsHorizontalSliding|SNSplashViewReferUserCenter];
+        _splashViewController.delegate = self;
+        [_navigator.window addSubview:_splashViewController.view];
+    }
+    if ([_splashViewController respondsToSelector:@selector(showSplashView)]) {
+        [_splashViewController showSplashView];
+    }
+}
+
+#pragma mark - Remote Notification
+- (void)registerRemoteNotification {
+    //iOS8及以上版本
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeBadge
+                                                                                             |UIRemoteNotificationTypeSound
+                                                                                             |UIRemoteNotificationTypeAlert) categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    } else {
+        UIRemoteNotificationType types = UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound| UIRemoteNotificationTypeAlert;
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:types];
+    }
+}
+
+//---Begin:iOS8及以上版本
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    [application registerForRemoteNotifications];
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler {
+}
+//---End:iOS8及以上版本
+
+#pragma mark User Activity Continuation protocol adopted by UIApplication delegate
+- (BOOL)application:(UIApplication *)application willContinueUserActivityWithType:(NSString *)userActivityType {
+    if ([userActivityType isEqualToString:snw_handoff_view_detail_identifier]) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
+    NSDictionary *userInfo = [userActivity userInfo];
+    if (userInfo) {
+        [SNUtility openProtocolUrl:@"news://newsId=15007426"];
+        return YES;
+    }
+    return NO;
+}
+
+#pragma mark Apple Watch
+- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply {
+    if (userInfo[snw_host_getList]) {
+        // 测试数据
+        /*
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            sleep(2);
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSDictionary *dict = @{snw_host_getList : @[
+                                               @{snw_list_image_url : @"http://img0.bdstatic.com/img/image/93581fb7f241ba0d1435f68c1676f5a81409808222.jpg", snw_list_title : @"由于大学生新一轮的考研备考出现-一桌难求-的现象"},
+                                               @{snw_list_image_url : @"http://h.hiphotos.baidu.com/image/w%3D230/sign=2c833e74a41ea8d38a227307a70b30cf/38dbb6fd5266d016165d17e7952bd40734fa35bc.jpg", snw_list_title : @"handleWatchKitExtensionRequest2"},
+                                               @{snw_list_image_url : @"http://b.hiphotos.baidu.com/image/w%3D310/sign=f6be5d4b7d3e6709be0043fe0bc69fb8/7a899e510fb30f24139f4d6fca95d143ad4b0350.jpg", snw_list_title : @"济南高校食堂变自习室 边学边吃3"},
+                                               @{snw_list_image_url : @"http://a.hiphotos.baidu.com/image/w%3D310/sign=bcb6373f1f950a7b753548c53ad0625c/6a600c338744ebf8eaf20836dbf9d72a6059a73c.jpg", snw_list_title : @"2015年03月17日，山东省济南市，在济南一高校食堂餐桌成了大学生备考的“自习课桌”。现场，餐桌上放满了堆积如山的备考书籍，由于大学生新一轮的考研备考出现“一桌难求”的现象，有学生带着马扎在食堂小卖部旁边苦读5"},
+                                               @{snw_list_image_url : @"http://c.hiphotos.baidu.com/image/w%3D310/sign=ab5deda780025aafd33278cacbecab8d/9f2f070828381f30936a26ceab014c086e06f062.jpg", snw_list_title : @"5"}
+                                               ]};
+                
+                reply(dict);
+                
+                 * 放到 watch extension 中去处理
+                // 持久化
+                NSURL *url = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:snw_app_group_identifier];
+                BOOL f = [dict writeToURL:[url URLByAppendingPathComponent:snw_app_group_filename] atomically:YES];
+                if (f) {
+                    
+                }
+            });
+        });
+        */
+        
+        // 去获取 news list on watch
+        // @"http://testapi.k.sohu.com/api/channel/push.go?page=1&num=5&from=1&picScale=1&p1=NTg3MzM2ODk0NDAyNjc1OTIyMA%3D%3D"
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        [manager GET:snw_push_list_url(userInfo[snw_host_pageNum], @"5", @"1", @"1", @"NTg3MzM2ODk0NDAyNjc1OTIyMA%3D%3D") parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            reply(responseObject);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            reply(nil);
+        }];
+        
+    } else if (userInfo[snw_host_getImage]) {
+        // 请求图片
+        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:userInfo[snw_host_getImage]]
+                                                              options:0
+                                                             progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                                                 
+                                                             }
+                                                            completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                                                if (image && finished) {
+                                                                    reply(@{snw_host_getImage : data});
+                                                                } else {
+                                                                    reply(nil);
+                                                                }
+                                                            }];
+    } else if (userInfo[snw_host_loadMore]) {
+        // 获取 more list
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        [manager GET:snw_push_list_url(userInfo[snw_host_pageNum], @"5", @"1", @"1", @"NTg3MzM2ODk0NDAyNjc1OTIyMA%3D%3D") parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            reply(responseObject);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            reply(nil);
+        }];
+        
+    } else {
+        reply(nil);
+    }
+}
+
+@end

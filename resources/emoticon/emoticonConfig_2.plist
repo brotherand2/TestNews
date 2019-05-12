@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>tabCount</key>
+	<string>2</string>
+	<key>emoticonConfig</key>
+	<array>
+		<dict>
+			<key>plist</key>
+			<string>newsEmoticons</string>
+			<key>class</key>
+			<string>SNEmoticonStaticScrollView</string>
+			<key>type</key>
+			<string>static</string>
+		</dict>
+		<dict>
+			<key>plist</key>
+			<string>liveEmoticons</string>
+			<key>class</key>
+			<string>SNEmoticonDynamicScrollView</string>
+			<key>type</key>
+			<string>dynamic</string>
+		</dict>
+	</array>
+</dict>
+</plist>

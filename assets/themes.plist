@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>default</key>
+	<string>默认</string>
+	<key>night</key>
+	<string>夜间模式</string>
+	<key>themesBuildIn</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>title</key>
+			<string>经典</string>
+			<key>isBuildIn</key>
+			<true/>
+			<key>downloadUrl</key>
+			<string></string>
+			<key>isCurrentTheme</key>
+			<true/>
+			<key>themeId</key>
+			<string>0</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>night</string>
+			<key>title</key>
+			<string>夜间</string>
+			<key>isBuildIn</key>
+			<true/>
+			<key>downloadUrl</key>
+			<string></string>
+			<key>isCurrentTheme</key>
+			<false/>
+			<key>themeId</key>
+			<string>1</string>
+		</dict>
+	</array>
+	<key>themesDownload</key>
+	<array/>
+</dict>
+</plist>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "0830"
+   version = "2.0">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "68A7D9101C117DCA001A4DF8"
+               BuildableName = "sohunews WatchKit App.app"
+               BlueprintName = "sohunews WatchKit App"
+               ReferencedContainer = "container:sohunews.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "371B52E71706BF0D00CECA3A"
+               BuildableName = "sohunews.app"
+               BlueprintName = "sohunews"
+               ReferencedContainer = "container:sohunews.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "399A97B91F13887A00F3E5EC"
+               BuildableName = "sohunewsUITests.xctest"
+               BlueprintName = "sohunewsUITests"
+               ReferencedContainer = "container:sohunews.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "68A7D9101C117DCA001A4DF8"
+            BuildableName = "sohunews WatchKit App.app"
+            BlueprintName = "sohunews WatchKit App"
+            ReferencedContainer = "container:sohunews.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES"
+      launchAutomaticallySubstyle = "32">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/&#x641c;&#x72d0;&#x65b0;&#x95fb;">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "68A7D9101C117DCA001A4DF8"
+            BuildableName = "sohunews WatchKit App.app"
+            BlueprintName = "sohunews WatchKit App"
+            ReferencedContainer = "container:sohunews.xcodeproj">
+         </BuildableReference>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "68A7D9101C117DCA001A4DF8"
+            BuildableName = "sohunews WatchKit App.app"
+            BlueprintName = "sohunews WatchKit App"
+            ReferencedContainer = "container:sohunews.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES"
+      launchAutomaticallySubstyle = "32">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/&#x641c;&#x72d0;&#x65b0;&#x95fb;">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "68A7D9101C117DCA001A4DF8"
+            BuildableName = "sohunews WatchKit App.app"
+            BlueprintName = "sohunews WatchKit App"
+            ReferencedContainer = "container:sohunews.xcodeproj">
+         </BuildableReference>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "68A7D9101C117DCA001A4DF8"
+            BuildableName = "sohunews WatchKit App.app"
+            BlueprintName = "sohunews WatchKit App"
+            ReferencedContainer = "container:sohunews.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>

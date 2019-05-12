@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SNSearchWebViewController">
+            <connections>
+                <outlet property="cancelButton" destination="wEt-52-PjF" id="ok2-yv-Gik"/>
+                <outlet property="cs1" destination="umK-B8-rS3" id="tl2-8c-5if"/>
+                <outlet property="csHeadViewTop" destination="OAO-U4-6VU" id="r2S-ng-42a"/>
+                <outlet property="csWebViewTop" destination="Qjb-DI-hkK" id="Ckg-ga-B5h"/>
+                <outlet property="headView" destination="Tva-2H-n5T" id="N3a-zl-uqg"/>
+                <outlet property="historyTable" destination="hEI-91-0rU" id="4PP-gA-3Lk"/>
+                <outlet property="historyView" destination="WSg-XP-6y9" id="32O-dK-2jt"/>
+                <outlet property="historyViewNoData" destination="g1t-Hg-0ey" id="p8K-hb-mdy"/>
+                <outlet property="iconLeading" destination="GBg-sQ-GmG" id="7Zw-oX-HOH"/>
+                <outlet property="searchIcon" destination="H6T-jm-ZGS" id="RUf-nr-Qof"/>
+                <outlet property="statusBgView" destination="YnZ-UO-zFt" id="YfP-E7-bH1"/>
+                <outlet property="textField" destination="UrH-s2-z7m" id="BKL-Bf-BBk"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="webView" destination="XTc-KK-KTB" id="mLx-NW-WDz"/>
+                <outlet property="webView1" destination="J06-M1-8ZE" id="Gai-LC-zL3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YnZ-UO-zFt" userLabel="Status View">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="q9q-bo-03m"/>
+                    </constraints>
+                </view>
+                <webView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XTc-KK-KTB" customClass="SHWebView">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="AyU-Ae-QoB"/>
+                    </connections>
+                </webView>
+                <webView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J06-M1-8ZE" userLabel="Web View 1" customClass="SHWebView">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="enT-nW-HC1"/>
+                    </connections>
+                </webView>
+                <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g1t-Hg-0ey" userLabel="history View no data">
+                    <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="vxN-28-gPy" appends="YES" id="xH0-Ru-h8v"/>
+                        <outletCollection property="gestureRecognizers" destination="MH3-7d-WAv" appends="YES" id="LTa-RH-8ZH"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WSg-XP-6y9" userLabel="history View">
+                    <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                    <subviews>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="56" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hEI-91-0rU">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="H2r-t9-pcC"/>
+                                <outlet property="delegate" destination="-1" id="UFi-kN-Rui"/>
+                            </connections>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="hEI-91-0rU" firstAttribute="height" secondItem="WSg-XP-6y9" secondAttribute="height" id="5xR-Ho-zwh"/>
+                        <constraint firstAttribute="centerY" secondItem="hEI-91-0rU" secondAttribute="centerY" id="Mzh-op-Trc"/>
+                        <constraint firstAttribute="centerX" secondItem="hEI-91-0rU" secondAttribute="centerX" id="O0z-1y-XfV"/>
+                        <constraint firstItem="hEI-91-0rU" firstAttribute="width" secondItem="WSg-XP-6y9" secondAttribute="width" id="rrJ-VO-Tof"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tva-2H-n5T" userLabel="Head View">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icopersonal_search_v5.png" translatesAutoresizingMaskIntoConstraints="NO" id="H6T-jm-ZGS">
+                            <rect key="frame" x="14" y="12" width="21" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="22C-vU-YJI"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="21" id="D6k-oF-1Gu"/>
+                            </constraints>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wEt-52-PjF">
+                            <rect key="frame" x="315" y="0.0" width="60" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="60" id="bbw-vd-ASE"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="取消">
+                                <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <state key="highlighted" title="取消">
+                                <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                        </button>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="搜索感兴趣的内容" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="UrH-s2-z7m">
+                            <rect key="frame" x="39" y="6" width="276" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="32" id="wmd-ap-qLL"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="633-Pq-5wR"/>
+                            </connections>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="centerY" secondItem="wEt-52-PjF" secondAttribute="centerY" id="5PX-ae-iRR"/>
+                        <constraint firstAttribute="centerY" secondItem="UrH-s2-z7m" secondAttribute="centerY" id="5vq-SE-5gQ"/>
+                        <constraint firstItem="H6T-jm-ZGS" firstAttribute="leading" secondItem="Tva-2H-n5T" secondAttribute="leading" constant="14" id="GBg-sQ-GmG"/>
+                        <constraint firstItem="wEt-52-PjF" firstAttribute="top" secondItem="Tva-2H-n5T" secondAttribute="top" id="IUn-Oe-IAZ"/>
+                        <constraint firstAttribute="centerY" secondItem="H6T-jm-ZGS" secondAttribute="centerY" id="NeP-dK-vGd"/>
+                        <constraint firstAttribute="trailing" secondItem="wEt-52-PjF" secondAttribute="trailing" id="Ter-w2-UiQ"/>
+                        <constraint firstAttribute="height" constant="44" id="YbR-PQ-bti"/>
+                        <constraint firstItem="wEt-52-PjF" firstAttribute="leading" secondItem="UrH-s2-z7m" secondAttribute="trailing" id="aIx-sG-3oG"/>
+                        <constraint firstAttribute="bottom" secondItem="wEt-52-PjF" secondAttribute="bottom" id="lDS-Oe-W3k"/>
+                        <constraint firstItem="UrH-s2-z7m" firstAttribute="leading" secondItem="H6T-jm-ZGS" secondAttribute="trailing" constant="4" id="umK-B8-rS3"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="J06-M1-8ZE" firstAttribute="leading" secondItem="XTc-KK-KTB" secondAttribute="leading" id="0Qa-GI-iLG"/>
+                <constraint firstAttribute="trailing" secondItem="YnZ-UO-zFt" secondAttribute="trailing" id="2X0-6d-VqO"/>
+                <constraint firstItem="YnZ-UO-zFt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="538-Ax-wI1"/>
+                <constraint firstAttribute="trailing" secondItem="Tva-2H-n5T" secondAttribute="trailing" id="5AF-fB-seu"/>
+                <constraint firstItem="J06-M1-8ZE" firstAttribute="height" secondItem="XTc-KK-KTB" secondAttribute="height" id="5Xg-V7-gZd"/>
+                <constraint firstItem="YnZ-UO-zFt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="5eD-cw-xAA"/>
+                <constraint firstItem="WSg-XP-6y9" firstAttribute="centerY" secondItem="g1t-Hg-0ey" secondAttribute="centerY" id="6DR-9f-1uN"/>
+                <constraint firstItem="WSg-XP-6y9" firstAttribute="top" secondItem="Tva-2H-n5T" secondAttribute="bottom" id="Fmn-sU-h2b"/>
+                <constraint firstAttribute="trailing" secondItem="WSg-XP-6y9" secondAttribute="trailing" id="GLd-qM-PBv"/>
+                <constraint firstAttribute="trailing" secondItem="XTc-KK-KTB" secondAttribute="trailing" id="Gec-IF-xXU"/>
+                <constraint firstItem="J06-M1-8ZE" firstAttribute="top" secondItem="XTc-KK-KTB" secondAttribute="top" id="HMc-w1-fyL"/>
+                <constraint firstItem="Tva-2H-n5T" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="OAO-U4-6VU"/>
+                <constraint firstItem="WSg-XP-6y9" firstAttribute="height" secondItem="g1t-Hg-0ey" secondAttribute="height" id="Q73-In-IfY"/>
+                <constraint firstItem="XTc-KK-KTB" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Qjb-DI-hkK"/>
+                <constraint firstItem="J06-M1-8ZE" firstAttribute="width" secondItem="XTc-KK-KTB" secondAttribute="width" id="RDV-H1-clW"/>
+                <constraint firstItem="XTc-KK-KTB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="V99-kK-qvG"/>
+                <constraint firstItem="WSg-XP-6y9" firstAttribute="width" secondItem="g1t-Hg-0ey" secondAttribute="width" id="Xvc-Dr-Qay"/>
+                <constraint firstAttribute="bottom" secondItem="WSg-XP-6y9" secondAttribute="bottom" id="YcZ-cs-jXp"/>
+                <constraint firstItem="WSg-XP-6y9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Yi3-fw-D5v"/>
+                <constraint firstItem="Tva-2H-n5T" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="aJk-GZ-Nhx"/>
+                <constraint firstAttribute="bottom" secondItem="XTc-KK-KTB" secondAttribute="bottom" constant="44" id="mAR-NM-kge"/>
+                <constraint firstItem="WSg-XP-6y9" firstAttribute="centerX" secondItem="g1t-Hg-0ey" secondAttribute="centerX" id="wwW-ir-b8h"/>
+            </constraints>
+            <point key="canvasLocation" x="560" y="394"/>
+        </view>
+        <tapGestureRecognizer id="MH3-7d-WAv">
+            <connections>
+                <action selector="tapNoHistoryView:" destination="-1" id="VAo-Te-JLs"/>
+                <outlet property="delegate" destination="-1" id="p9r-1j-Gjg"/>
+            </connections>
+        </tapGestureRecognizer>
+        <swipeGestureRecognizer direction="right" id="hDh-UC-XEh"/>
+        <panGestureRecognizer minimumNumberOfTouches="1" id="vxN-28-gPy">
+            <connections>
+                <action selector="panHistoryView:" destination="-1" id="icA-58-wQd"/>
+                <outlet property="delegate" destination="-1" id="efQ-av-KOG"/>
+            </connections>
+        </panGestureRecognizer>
+    </objects>
+    <resources>
+        <image name="icopersonal_search_v5.png" width="21" height="21"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
+</document>
